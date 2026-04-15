@@ -4,6 +4,11 @@ from pathlib import Path
 
 import pytest
 
+_FULL_COVARIATES = {n: 0.0 for n in (
+    "lvef", "egfr", "age", "baseline_k",
+    "dm_fraction", "mr_occupancy", "adherence_proxy",
+)}
+
 
 def test_minimal_record_roundtrips(tmp_path: Path) -> None:
     from dfs.schema import TrialBoundaryCondition
@@ -45,6 +50,42 @@ def test_missing_covariate_raises() -> None:
             safety={},
             design_priors={},
         )
+
+
+def test_boolean_mr_occupancy_refused() -> None:
+    """Booleans are ints in Python; schema must still reject them (lessons.md)."""
+    from dfs.schema import TrialBoundaryCondition
+
+    with pytest.raises(TypeError, match="not bool"):
+        TrialBoundaryCondition(
+            trial_id="BAD-BOOL",
+            drug="spironolactone",
+            mr_occupancy_equivalent=True,  # type: ignore[arg-type]
+            anchor_covariates=_FULL_COVARIATES,
+            covariate_ranges={},
+            outcomes={},
+            safety={},
+            design_priors={},
+        )
+
+
+def test_from_json_path_context_on_bad_key(tmp_path: Path) -> None:
+    """Unknown JSON key must surface the file path in the raised error."""
+    from dfs.schema import TrialBoundaryCondition
+
+    bad = tmp_path / "bad.json"
+    bad.write_text(json.dumps({
+        "trail_id": "typo",  # 'trail' not 'trial'
+        "drug": "spironolactone",
+        "mr_occupancy_equivalent": 1.0,
+        "anchor_covariates": _FULL_COVARIATES,
+        "covariate_ranges": {},
+        "outcomes": {},
+        "safety": {},
+        "design_priors": {},
+    }))
+    with pytest.raises(TypeError, match="bad.json"):
+        TrialBoundaryCondition.from_json(bad)
 
 
 def test_silent_failure_sentinel_refused() -> None:

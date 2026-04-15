@@ -21,9 +21,11 @@ class TrialBoundaryCondition:
     design_priors: dict[str, float]
 
     def __post_init__(self) -> None:
-        if not isinstance(self.mr_occupancy_equivalent, (int, float)):
+        if isinstance(self.mr_occupancy_equivalent, bool) or not isinstance(
+            self.mr_occupancy_equivalent, (int, float)
+        ):
             raise TypeError(
-                f"mr_occupancy_equivalent must be numeric, got "
+                f"mr_occupancy_equivalent must be numeric (not bool), got "
                 f"{type(self.mr_occupancy_equivalent).__name__}"
             )
         missing = [c for c in COVARIATE_NAMES if c not in self.anchor_covariates]
@@ -42,8 +44,12 @@ class TrialBoundaryCondition:
 
     @classmethod
     def from_json(cls, path: Path) -> TrialBoundaryCondition:
-        raw = json.loads(Path(path).read_text(encoding="utf-8"))
+        path = Path(path)
+        raw = json.loads(path.read_text(encoding="utf-8"))
         raw["covariate_ranges"] = {
             k: tuple(v) for k, v in raw.get("covariate_ranges", {}).items()
         }
-        return cls(**raw)
+        try:
+            return cls(**raw)
+        except (TypeError, KeyError) as exc:
+            raise type(exc)(f"While loading {path}: {exc}") from exc
