@@ -15,5 +15,7 @@ OUTCOME_NAMES: tuple[str, ...] = (
     "primary_composite", "acm", "cv_death", "non_cv_death",
     "hf_hosp", "sudden_death", "pump_failure", "mi", "stroke",
 )
+assert len(OUTCOME_NAMES) == 9, "1 composite + 8 decomposed outcomes"
 
 SAFETY_NAMES: tuple[str, ...] = ("delta_k", "delta_sbp", "delta_egfr")
+assert len(SAFETY_NAMES) == 3, "K+, SBP, eGFR surfaces"

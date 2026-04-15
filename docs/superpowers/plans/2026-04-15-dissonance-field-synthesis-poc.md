@@ -6,7 +6,7 @@
 
 **Architecture:** Tight POC scope. Pure Python, no engine abstraction. Each trial is a boundary-condition record loaded from JSON via a manifest. Fitter is a QP with CVXPY. User authors three small files (conservation laws, adherence proxy, decision thresholds) where clinical judgment is load-bearing. Four validation tests (MA-equivalence, conservation-violation detection, dissonance resolution, LOO) gate publication.
 
-**Tech Stack:** Python 3.13, numpy, scipy, cvxpy (ECOS/OSQP), statsmodels (MA-equivalence benchmark), pyDOE2 (Latin hypercube for virtual-obs grid), matplotlib, pytest, pytest-cov.
+**Tech Stack:** Python 3.13, numpy, scipy, cvxpy (ECOS/OSQP), statsmodels (MA-equivalence benchmark), scipy.stats.qmc.LatinHypercube (virtual-obs grid), matplotlib, pytest, pytest-cov.
 
 **Spec:** `docs/superpowers/specs/2026-04-15-dissonance-field-synthesis-design.md` (read before starting).
 
@@ -113,7 +113,6 @@ dependencies = [
     "scipy>=1.11",
     "cvxpy>=1.5",
     "statsmodels>=0.14",
-    "pyDOE2>=1.3",
     "matplotlib>=3.8",
 ]
 
@@ -173,7 +172,7 @@ import pytest
 
 REQUIRED = [
     "numpy", "scipy", "scipy.optimize", "scipy.linalg",
-    "cvxpy", "statsmodels.api", "pyDOE2", "matplotlib",
+    "cvxpy", "statsmodels.api", "scipy.stats.qmc", "matplotlib",
     "dfs", "dfs.config",
 ]
 
@@ -2968,6 +2967,12 @@ Per user CLAUDE.md, update `C:/ProjectIndex/INDEX.md` and `C:/E156/rewrite-workb
 **Type consistency:** `fit_unconstrained_gp` → `UnconstrainedGP` with `.predict(x_star) → (mu, var)`; `fit_constrained_gp` → `ConstrainedGP` with same `.predict` signature. `mind_change_price` and `feasibility_region` signatures consistent across test/impl/runner. `DissonancePair` dataclass fields stable across Tasks 3, 16, 18. `ConservationViolation` fields stable across Tasks 15, 19.
 
 **Scope:** 21 tasks, each single-concern, each committed separately. Nothing mixed with future-work items. User-authored files isolated to 3 modules.
+
+## Deviation log
+
+| Date | Change | Reason |
+|------|--------|---------|
+| 2026-04-15 | Dropped `pyDOE2`; replaced with `scipy.stats.qmc.LatinHypercube` | Python 3.13 incompatibility — `pyDOE2` imports the removed `imp` module and cannot be installed. `scipy.stats.qmc` provides an equivalent `LatinHypercube` sampler; scipy is already a hard dependency so no new dependency is needed. Tech Stack line and Task 0 REQUIRED list updated to reflect this. |
 
 ---
 
