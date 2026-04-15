@@ -48,3 +48,30 @@ def test_manifest_id_mismatch_fails_closed(tmp_path: Path, synth_trial_a) -> Non
     }))
     with pytest.raises(ValueError, match="trial_id mismatch"):
         load_trials(manifest)
+
+
+def test_manifest_missing_trials_key_raises(tmp_path: Path) -> None:
+    from dfs.manifest import load_trials
+
+    manifest = tmp_path / "MANIFEST.json"
+    manifest.write_text(json.dumps({"other": "value"}))
+    with pytest.raises(KeyError, match="trials"):
+        load_trials(manifest)
+
+
+def test_manifest_duplicate_trial_id_raises(tmp_path: Path, synth_trial_a) -> None:
+    from dfs.manifest import load_trials
+
+    a_path = tmp_path / "a.json"
+    synth_trial_a.to_json(a_path)
+    b_path = tmp_path / "b.json"
+    synth_trial_a.to_json(b_path)  # same record with same trial_id, different file
+    manifest = tmp_path / "MANIFEST.json"
+    manifest.write_text(json.dumps({
+        "trials": [
+            {"id": "SYNTH-A", "file": "a.json"},
+            {"id": "SYNTH-A", "file": "b.json"},
+        ]
+    }))
+    with pytest.raises(ValueError, match="Duplicate trial_id"):
+        load_trials(manifest)
