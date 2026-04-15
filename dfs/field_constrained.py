@@ -31,7 +31,6 @@ class ConstrainedGP:
     sigma2: float
     length_scales: NDArray[np.float64]
     x_joint: NDArray[np.float64]
-    cov_joint: NDArray[np.float64]
 
     def predict(
         self, x_star: NDArray[np.float64]
@@ -138,6 +137,10 @@ def fit_constrained_gp(
     for ic in inequality_constraints:
         grid = ic["grid"]
         idx = []
+        # Exact float match relies on x_virtual rows being the original grid
+        # rows verbatim (np.unique preserves bit patterns). If a caller passes
+        # grid points computed via arithmetic (e.g. x_base + 0.1), this may
+        # silently ValueError. Harden to cdist-with-tolerance if needed.
         for g in grid:
             # Find row in x_joint that matches this grid point exactly.
             # np.unique may have changed order; row-wise equality check is safe
@@ -167,10 +170,13 @@ def fit_constrained_gp(
 
     # --- Solve ---
     prob = cp.Problem(cp.Minimize(data_term + prior_term), qp_constraints)
+    # CLARABEL uses tol_gap_abs/tol_gap_rel/tol_feas instead of OSQP's
+    # eps_abs/eps_rel; map QP_SOLVER_ATOL to all three gap/feasibility knobs.
     prob.solve(
-        solver=cp.OSQP,
-        eps_abs=QP_SOLVER_ATOL,
-        eps_rel=QP_SOLVER_ATOL,
+        solver=cp.CLARABEL,
+        tol_gap_abs=QP_SOLVER_ATOL,
+        tol_gap_rel=QP_SOLVER_ATOL,
+        tol_feas=QP_SOLVER_ATOL,
     )
     if prob.status not in (cp.OPTIMAL,):
         raise RuntimeError(
@@ -180,17 +186,10 @@ def fit_constrained_gp(
 
     y_posterior = np.asarray(f.value, dtype=np.float64)
 
-    # cov_joint stored for potential downstream use (e.g. active learning);
-    # not used by predict() which recomputes K_joint from scratch.
-    cov_joint = K_reg.copy()
-    for i in range(n_train):
-        cov_joint[i, i] += noise_var[i]
-
     return ConstrainedGP(
         x_train=x_train,
         y_posterior=y_posterior,
         sigma2=sigma2,
         length_scales=length_scales,
         x_joint=x_joint,
-        cov_joint=cov_joint,
     )
