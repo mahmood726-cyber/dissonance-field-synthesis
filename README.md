@@ -55,6 +55,20 @@ Outputs appear in `outputs/`:
 - **Highest dissonance pair:** TOPCAT-Americas vs TOPCAT-Russia/Georgia, d = 1.56. DFS correctly identifies the regional-adherence signal as the dominant disagreement in the evidence base — a signal standard meta-analysis silently pools away.
 - **Leave-one-trial-out (FINEARTS-HF):** observed log-HR (−0.174) lies inside the predicted 95% CrI [−0.990, +0.967] from a GP trained on the other five trials.
 
+### k_sign conservation law (Phase-1b)
+
+The `k_sign` law — ΔK⁺ >= 0 wherever MR occupancy > 0 — is now wired into the pipeline as a hard inequality constraint on the safety GP. Results on the real MRA-HFpEF data:
+
+- All 6 trials included; none skipped (all have `delta_k` safety entry).
+- Observed ΔK⁺ range across trials: +0.02 to +0.23 mmol/L (TOPCAT-Russia/Georgia lowest, consistent with near-zero MR occupancy from non-adherence; FIDELIO DKD-HF subgroup highest, consistent with lower baseline eGFR potentiating the class effect).
+- **Constraint is non-binding everywhere** — 0 of 50 Latin-hypercube virtual observation points required the QP to pull the posterior up. The unconstrained posterior minimum on the virtual grid is +0.047 mmol/L, well above zero.
+- This is mechanistically expected: aldosterone blockade increases serum potassium by definition; a negative ΔK⁺ would indicate measurement-timing artefact, not a true pharmacological reversal.
+- All ΔK⁺ values are marked "Derived" (inferred from class-level evidence) and receive a 2× SE inflation in the GP noise model to reflect the additional uncertainty.
+
+Artefacts: `outputs/safety_delta_k_lvef_egfr.png` (posterior mean + SD heatmap of the ΔK⁺ surface over LVEF × eGFR) and `outputs/k_sign_constraint_report.json` (full per-trial report).
+
+For the architectural blockers preventing the other 5 laws from being wired, see [`docs/conservation_law_wiring_status.md`](docs/conservation_law_wiring_status.md).
+
 ## Scope boundaries
 
 POC, not a reusable engine. Explicit non-goals:
@@ -79,7 +93,7 @@ Defaults are committed; revisit them against your clinical judgment.
 ## Reproducibility
 
 - Trial-level data curated from AACT 2026-04-12 snapshot + primary publications. Every outcome record carries a `source` field with PMID or AACT `outcome_id`.
-- Test suite: 78 passing, 1 intentional skip (combinatorial counting test deferred to integration contract). Four falsification tests: MA-equivalence limit, conservation-violation detection, dissonance resolution, leave-one-out.
+- Test suite: 83 passing, 1 intentional skip (combinatorial counting test deferred to integration contract). Four falsification tests: MA-equivalence limit, conservation-violation detection, dissonance resolution, leave-one-out. Three k_sign safety tests added in Phase-1b B.
 - Deterministic across seeds 0, 1, 42 for the MA-equivalence limit test.
 
 ## License

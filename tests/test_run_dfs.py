@@ -18,3 +18,5 @@ def test_run_dfs_completes_and_produces_artefacts(tmp_path: Path) -> None:
     assert (out_dir / "mind_change_price.csv").exists()
     assert (out_dir / "feasibility_mask.csv").exists()
     assert (out_dir / "conservation_diagnostics.json").exists()
+    assert (out_dir / "safety_delta_k_lvef_egfr.png").exists()
+    assert (out_dir / "k_sign_constraint_report.json").exists()

@@ -17,6 +17,7 @@ from dfs.hyperparam import fit_hyperparameters
 from dfs.manifest import load_trials
 from dfs.mind_change import mind_change_price
 from dfs.outputs import plot_field_slice, write_dissonance_table
+from dfs.safety import fit_safety_field
 
 
 def main() -> int:
@@ -84,6 +85,43 @@ def main() -> int:
         lvef_ax, egfr_ax, mu_img, var_img,
         args.out / "field_lvef_egfr.png",
         x_label="LVEF (norm)", y_label="eGFR (norm)",
+    )
+
+    # 4b. Safety field: ΔK⁺ surface constrained by k_sign law (Phase-1b B)
+    #     Trials missing delta_k are skipped with a note in the report JSON.
+    #     Trials with "Derived" source string receive 2× SE inflation.
+    safety_result = fit_safety_field(
+        trials, safety_key="delta_k", constraint="k_sign",
+    )
+    safety_gp = safety_result["gp"]
+    safety_vgrid = safety_result["virtual_grid"]
+    safety_report = safety_result["report"]
+
+    # Predict safety surface on same LVEF × eGFR slice
+    safety_mu, safety_var = safety_gp.predict(grid)
+    safety_mu_img = safety_mu.reshape(LV.shape)
+    safety_var_img = safety_var.reshape(LV.shape)
+    plot_field_slice(
+        lvef_ax, egfr_ax, safety_mu_img, safety_var_img,
+        args.out / "safety_delta_k_lvef_egfr.png",
+        x_label="LVEF (norm)", y_label="eGFR (norm)",
+    )
+
+    # Summarise binding status on the virtual grid for the report
+    safety_mu_vgrid, _ = safety_gp.predict(safety_vgrid)
+    print(
+        f"k_sign constraint (delta-K+ >= 0):\n"
+        f"  included trials   = {safety_report['n_included_trials']}\n"
+        f"  skipped trials    = {safety_report['n_skipped_trials']}\n"
+        f"  virtual obs       = {safety_report['n_virtual_obs']}\n"
+        f"  any binding       = {safety_report['any_binding']}\n"
+        f"  binding obs       = {safety_report['n_binding_virtual_obs']}\n"
+        f"  min posterior     = {safety_report['min_posterior_mean_on_grid']:.4f}\n"
+    )
+
+    (args.out / "k_sign_constraint_report.json").write_text(
+        json.dumps(safety_report, indent=2),
+        encoding="utf-8",
     )
 
     # 5. Mind-change price at the same slice
