@@ -5,6 +5,7 @@ import itertools
 import math
 from dataclasses import dataclass
 
+from dfs.config import SE_COMBINED_FLOOR
 from dfs.schema import TrialBoundaryCondition
 
 
@@ -41,7 +42,7 @@ def pairwise_dissonance(
         sa = a.outcomes[outcome]["se"]
         sb = b.outcomes[outcome]["se"]
         denom = math.sqrt(sa**2 + sb**2)
-        if denom < 1e-12:
+        if denom < SE_COMBINED_FLOOR:
             raise ZeroDivisionError(
                 f"Near-zero combined SE for {outcome!r} "
                 f"({a.trial_id!r} SE={sa}, {b.trial_id!r} SE={sb}); "

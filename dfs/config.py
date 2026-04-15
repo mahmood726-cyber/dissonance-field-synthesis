@@ -4,6 +4,7 @@ MA_EQUIVALENCE_TOL: float = 1e-3
 CONSERVATION_VIOLATION_SIGMA: float = 2.0
 VIRTUAL_GRID_SIZE: int = 200
 QP_SOLVER_ATOL: float = 1e-6
+SE_COMBINED_FLOOR: float = 1e-12
 
 COVARIATE_NAMES: tuple[str, ...] = (
     "lvef", "egfr", "age", "baseline_k", "dm_fraction",
