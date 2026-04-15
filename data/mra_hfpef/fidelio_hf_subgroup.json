@@ -1,0 +1,71 @@
+{
+  "trial_id": "FIDELIO-DKD-HF-subgroup",
+  "drug": "finerenone",
+  "mr_occupancy_equivalent": 1.2,
+  "anchor_covariates": {
+    "lvef": 55.0,
+    "egfr": 44.34,
+    "age": 65.56,
+    "baseline_k": 4.4,
+    "dm_fraction": 1.0,
+    "mr_occupancy": 1.2,
+    "adherence_proxy": 0.88
+  },
+  "covariate_ranges": {
+    "lvef": [40.0, 75.0],
+    "egfr": [20.0, 75.0],
+    "age": [40.0, 85.0],
+    "baseline_k": [3.5, 5.5],
+    "dm_fraction": [0.8, 1.0],
+    "mr_occupancy": [0.8, 1.6],
+    "adherence_proxy": [0.6, 1.0]
+  },
+  "outcomes": {
+    "primary_composite": {
+      "log_hr": -0.150823,
+      "se": 0.071589,
+      "baseline_prop": 1.0,
+      "source": "PMID:33264825 (Bakris NEJM 2020; NCT02540993 CT.gov resultsSection outcome 1: CV composite HR 0.860, 95% CI 0.747-0.989; stratified Cox model; this is the secondary CV endpoint used as primary for DFS HF subgroup analysis)"
+    },
+    "acm": {
+      "log_hr": -0.110932,
+      "se": 0.093202,
+      "baseline_prop": 1.0,
+      "source": "PMID:33264825 (Bakris NEJM 2020; NCT02540993 CT.gov resultsSection outcome 2: ACM HR 0.895, 95% CI 0.746-1.075; stratified Cox model)"
+    },
+    "cv_death": {
+      "log_hr": -0.150823,
+      "se": 0.09,
+      "baseline_prop": 0.60,
+      "source": "Derived (assumption: CV death HR approximated at 0.86 matching CV composite; PMID:33198491 (Filippatos Circulation 2021) HF subgroup analysis does not separately report CV death CI; baseline_prop 0.60 typical CV fraction; placeholder for clinician review)"
+    },
+    "non_cv_death": {
+      "log_hr": -0.040822,
+      "se": 0.130,
+      "baseline_prop": 0.40,
+      "source": "Derived from conservation law: non_cv HR = (ACM_HR - 0.60 x CV_death_HR) / 0.40 approx 0.96; CI approximate; PMID:33198491 does not report non-CV death separately; placeholder for clinician review"
+    }
+  },
+  "safety": {
+    "delta_k": {
+      "value": 0.23,
+      "se": 0.05,
+      "source": "Derived (assumption: finerenone delta-K ~+0.23 mmol/L at lower eGFR (44 mL/min); extrapolated from FIDELIO-DKD overall population; PMID:33264825; NCT02540993 CT.gov does not report continuous delta-K; placeholder for clinician review)"
+    },
+    "delta_sbp": {
+      "value": -2.0,
+      "se": 0.8,
+      "source": "Derived (assumption: ~2 mmHg SBP reduction; PMID:33264825 supplementary; placeholder for clinician review)"
+    },
+    "delta_egfr": {
+      "value": -4.0,
+      "se": 1.2,
+      "source": "Derived (assumption: acute eGFR dip larger at lower baseline eGFR; PMID:33264825; NCT02540993 CT.gov does not report continuous delta-eGFR as safety summary; placeholder for clinician review)"
+    }
+  },
+  "design_priors": {
+    "placebo_rate_per_yr": 0.11,
+    "ltfu_fraction": 0.06,
+    "adherence_proxy": 0.88
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "trial_id": "Aldo-DHF",
+  "drug": "spironolactone",
+  "mr_occupancy_equivalent": 1.0,
+  "anchor_covariates": {
+    "lvef": 67.0,
+    "egfr": 68.0,
+    "age": 67.0,
+    "baseline_k": 4.2,
+    "dm_fraction": 0.16,
+    "mr_occupancy": 1.0,
+    "adherence_proxy": 0.80
+  },
+  "covariate_ranges": {
+    "lvef": [50.0, 85.0],
+    "egfr": [35.0, 110.0],
+    "age": [50.0, 85.0],
+    "baseline_k": [3.5, 5.0],
+    "dm_fraction": [0.0, 1.0],
+    "mr_occupancy": [0.5, 1.5],
+    "adherence_proxy": [0.5, 1.0]
+  },
+  "outcomes": {
+    "primary_composite": {
+      "log_hr": 0.0,
+      "se": 0.353647,
+      "baseline_prop": 1.0,
+      "source": "Derived (PMID:23440502, Edelmann JAMA 2013: primary endpoint was diastolic function E/e' ratio, not MACE; ACM/HF-hosp events too sparse for reliable Cox HR in n=422; HR 1.00 used as conservative placeholder with wide CI 0.50-2.00; requires clinician review before use in MACE meta-analysis)"
+    },
+    "acm": {
+      "log_hr": 0.0,
+      "se": 0.353647,
+      "baseline_prop": 1.0,
+      "source": "Derived (PMID:23440502, Edelmann JAMA 2013: ACM events very sparse in n=422, mean age 67; HR 1.00 with wide CI 0.50-2.00 is a conservative placeholder; event count not separately reported with CI in primary paper; requires clinician review)"
+    },
+    "cv_death": {
+      "log_hr": 0.0,
+      "se": 0.450,
+      "baseline_prop": 0.60,
+      "source": "Derived (assumption: HR 1.00, very wide CI reflecting sparse events; PMID:23440502 does not separately report CV death with CI; placeholder for clinician review)"
+    },
+    "non_cv_death": {
+      "log_hr": 0.0,
+      "se": 0.550,
+      "baseline_prop": 0.40,
+      "source": "Derived (assumption: HR 1.00, very wide CI reflecting sparse events; PMID:23440502 does not separately report non-CV death; placeholder for clinician review)"
+    }
+  },
+  "safety": {
+    "delta_k": {
+      "value": 0.20,
+      "se": 0.06,
+      "source": "Derived (assumption: typical spironolactone +0.2 mmol/L; PMID:23440502 reports potassium increase but does not give mean change with SD in main paper; placeholder for clinician review)"
+    },
+    "delta_sbp": {
+      "value": -3.0,
+      "se": 1.2,
+      "source": "Derived (assumption: ~3 mmHg SBP reduction consistent with ALDO-DHF JAMA 2013 supplementary; placeholder for clinician review)"
+    },
+    "delta_egfr": {
+      "value": -2.0,
+      "se": 1.0,
+      "source": "Derived (assumption: modest eGFR dip with spironolactone; PMID:23440502 does not report delta-eGFR in main text; placeholder for clinician review)"
+    }
+  },
+  "design_priors": {
+    "placebo_rate_per_yr": 0.04,
+    "ltfu_fraction": 0.07,
+    "adherence_proxy": 0.80
+  }
+}

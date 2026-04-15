@@ -1,0 +1,77 @@
+{
+  "trial_id": "TOPCAT-Americas",
+  "drug": "spironolactone",
+  "mr_occupancy_equivalent": 1.0,
+  "anchor_covariates": {
+    "lvef": 58.0,
+    "egfr": 66.0,
+    "age": 72.0,
+    "baseline_k": 4.3,
+    "dm_fraction": 0.32,
+    "mr_occupancy": 1.0,
+    "adherence_proxy": 0.85
+  },
+  "covariate_ranges": {
+    "lvef": [45.0, 80.0],
+    "egfr": [30.0, 110.0],
+    "age": [50.0, 90.0],
+    "baseline_k": [3.5, 5.5],
+    "dm_fraction": [0.0, 1.0],
+    "mr_occupancy": [0.5, 1.5],
+    "adherence_proxy": [0.6, 1.0]
+  },
+  "outcomes": {
+    "primary_composite": {
+      "log_hr": -0.198451,
+      "se": 0.089505,
+      "baseline_prop": 1.0,
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 2: Americas HR 0.82, 95% CI 0.69-0.98)"
+    },
+    "acm": {
+      "log_hr": -0.18633,
+      "se": 0.100922,
+      "baseline_prop": 1.0,
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas ACM HR 0.83, 95% CI 0.68-1.01)"
+    },
+    "cv_death": {
+      "log_hr": -0.127833,
+      "se": 0.111684,
+      "baseline_prop": 0.60,
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas CV death HR 0.88, 95% CI 0.71-1.10)"
+    },
+    "non_cv_death": {
+      "log_hr": -0.281038,
+      "se": 0.250212,
+      "baseline_prop": 0.40,
+      "source": "Derived from ACM conservation (ACM=0.83; CV fraction=0.60; non-CV HR approx 0.755; CI approximate)"
+    },
+    "hf_hosp": {
+      "log_hr": -0.198451,
+      "se": 0.108537,
+      "baseline_prop": 1.0,
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas HF hosp HR 0.82, 95% CI 0.66-1.01)"
+    }
+  },
+  "safety": {
+    "delta_k": {
+      "value": 0.20,
+      "se": 0.05,
+      "source": "Derived (assumption: typical MRA effect +0.2 mmol/L; no Americas-specific subgroup table available in PMID:25552772)"
+    },
+    "delta_sbp": {
+      "value": -1.5,
+      "se": 0.8,
+      "source": "Derived (assumption: modest SBP reduction in HFpEF population; no Americas-specific value in PMID:25552772)"
+    },
+    "delta_egfr": {
+      "value": -3.0,
+      "se": 1.0,
+      "source": "Derived (assumption: modest acute eGFR dip with MRA in HFpEF; no Americas-specific value in PMID:25552772)"
+    }
+  },
+  "design_priors": {
+    "placebo_rate_per_yr": 0.126,
+    "ltfu_fraction": 0.08,
+    "adherence_proxy": 0.85
+  }
+}

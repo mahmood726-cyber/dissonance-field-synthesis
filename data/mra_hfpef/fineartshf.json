@@ -1,0 +1,77 @@
+{
+  "trial_id": "FINEARTS-HF",
+  "drug": "finerenone",
+  "mr_occupancy_equivalent": 1.2,
+  "anchor_covariates": {
+    "lvef": 52.56,
+    "egfr": 60.0,
+    "age": 71.99,
+    "baseline_k": 4.3,
+    "dm_fraction": 0.45,
+    "mr_occupancy": 1.2,
+    "adherence_proxy": 0.90
+  },
+  "covariate_ranges": {
+    "lvef": [40.0, 75.0],
+    "egfr": [25.0, 110.0],
+    "age": [40.0, 90.0],
+    "baseline_k": [3.5, 5.5],
+    "dm_fraction": [0.0, 1.0],
+    "mr_occupancy": [0.8, 1.6],
+    "adherence_proxy": [0.7, 1.0]
+  },
+  "outcomes": {
+    "primary_composite": {
+      "log_hr": -0.174353,
+      "se": 0.063727,
+      "baseline_prop": 1.0,
+      "source": "PMID:39225278 (Solomon NEJM 2024; NCT04435626 CT.gov resultsSection: rate ratio 0.84, 95% CI 0.74-0.95; stratified Andersen-Gill model; note: rate ratio, not Cox HR)"
+    },
+    "acm": {
+      "log_hr": -0.072571,
+      "se": 0.062398,
+      "baseline_prop": 1.0,
+      "source": "PMID:39225278 (Solomon NEJM 2024; NCT04435626 CT.gov resultsSection outcome 7: cause-specific HR 0.93, 95% CI 0.83-1.06; stratified Cox model)"
+    },
+    "cv_death": {
+      "log_hr": -0.094311,
+      "se": 0.071585,
+      "baseline_prop": 0.60,
+      "source": "Derived (assumption: CV death HR 0.91 from Lancet IPD MRA meta-analysis PMID:39232490; CI approximated using HF hosp SE as proxy; baseline_prop 0.60 = typical CV fraction of ACM in HFpEF; placeholder for clinician review)"
+    },
+    "non_cv_death": {
+      "log_hr": -0.040822,
+      "se": 0.095,
+      "baseline_prop": 0.40,
+      "source": "Derived from conservation law: non_cv HR = (ACM_HR - 0.60 x CV_death_HR) / 0.40 = 0.96; CI approximate; placeholder for clinician review"
+    },
+    "hf_hosp": {
+      "log_hr": -0.198451,
+      "se": 0.071585,
+      "baseline_prop": 1.0,
+      "source": "PMID:39225278 (Solomon NEJM 2024; NCT04435626 CT.gov resultsSection outcome 2: rate ratio 0.82, 95% CI 0.71-0.94; Andersen-Gill model; note: rate ratio for total recurrent HF events)"
+    }
+  },
+  "safety": {
+    "delta_k": {
+      "value": 0.18,
+      "se": 0.04,
+      "source": "Derived (assumption: finerenone delta-K ~+0.18 mmol/L in HFpEF population; based on FIDELIO/FIGARO DKD data and smaller HFpEF-range eGFR effect; NCT04435626 CT.gov does not report continuous delta-K; placeholder for clinician review)"
+    },
+    "delta_sbp": {
+      "value": -1.0,
+      "se": 0.6,
+      "source": "Derived (assumption: modest SBP reduction ~1 mmHg; placeholder for clinician review; NCT04435626 CT.gov does not report continuous SBP change)"
+    },
+    "delta_egfr": {
+      "value": -2.5,
+      "se": 0.8,
+      "source": "Derived (assumption: small acute eGFR dip typical of MRA class; NCT04435626 CT.gov does not report continuous eGFR change; placeholder for clinician review)"
+    }
+  },
+  "design_priors": {
+    "placebo_rate_per_yr": 0.14,
+    "ltfu_fraction": 0.05,
+    "adherence_proxy": 0.90
+  }
+}

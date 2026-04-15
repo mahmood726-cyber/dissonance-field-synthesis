@@ -1,0 +1,13 @@
+{
+  "description": "MRA-in-HFpEF boundary-condition records for DFS POC",
+  "curated_by": "Mahmood Ahmad (clinical review) + Claude (data extraction)",
+  "curated_date": "2026-04-15",
+  "trials": [
+    {"id": "TOPCAT-Americas",         "file": "topcat_americas.json"},
+    {"id": "TOPCAT-Russia-Georgia",   "file": "topcat_russia_georgia.json"},
+    {"id": "FINEARTS-HF",             "file": "fineartshf.json"},
+    {"id": "FIDELIO-DKD-HF-subgroup", "file": "fidelio_hf_subgroup.json"},
+    {"id": "FIGARO-DKD-HF-subgroup",  "file": "figaro_hf_subgroup.json"},
+    {"id": "Aldo-DHF",                "file": "aldo_dhf.json"}
+  ]
+}

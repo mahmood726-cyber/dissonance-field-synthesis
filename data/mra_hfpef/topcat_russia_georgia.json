@@ -1,0 +1,71 @@
+{
+  "trial_id": "TOPCAT-Russia-Georgia",
+  "drug": "spironolactone",
+  "mr_occupancy_equivalent": 1.0,
+  "anchor_covariates": {
+    "lvef": 57.0,
+    "egfr": 81.0,
+    "age": 65.0,
+    "baseline_k": 4.4,
+    "dm_fraction": 0.19,
+    "mr_occupancy": 1.0,
+    "adherence_proxy": 0.40
+  },
+  "covariate_ranges": {
+    "lvef": [45.0, 80.0],
+    "egfr": [40.0, 130.0],
+    "age": [50.0, 85.0],
+    "baseline_k": [3.5, 5.5],
+    "dm_fraction": [0.0, 1.0],
+    "mr_occupancy": [0.0, 1.0],
+    "adherence_proxy": [0.1, 0.7]
+  },
+  "outcomes": {
+    "primary_composite": {
+      "log_hr": 0.09531,
+      "se": 0.165263,
+      "baseline_prop": 1.0,
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 2: Russia/Georgia HR 1.10, 95% CI 0.79-1.51)"
+    },
+    "acm": {
+      "log_hr": 0.0,
+      "se": 0.165966,
+      "baseline_prop": 1.0,
+      "source": "Derived (assumption: HR 1.00, 95% CI 0.72-1.38; approximated from overall ACM symmetry in non-adherent arm; PMID:25552772 does not report Russia/Georgia ACM subgroup CI)"
+    },
+    "cv_death": {
+      "log_hr": 0.09531,
+      "se": 0.216147,
+      "baseline_prop": 0.60,
+      "source": "Derived (assumption: HR 1.10, 95% CI 0.72-1.68; approximate; non-adherence attenuates CV protection; PMID:25552772)"
+    },
+    "non_cv_death": {
+      "log_hr": 0.0,
+      "se": 0.260,
+      "baseline_prop": 0.40,
+      "source": "Derived (assumption: HR 1.00; non-CV death unaffected by non-adherent MRA; CI approximate; placeholder for clinician review)"
+    }
+  },
+  "safety": {
+    "delta_k": {
+      "value": 0.02,
+      "se": 0.05,
+      "source": "Derived (assumption: near-zero delta-K consistent with non-adherence signal in Russia/Georgia; spironolactone metabolite serum levels near zero reported in PMID:25552772 editorial commentary)"
+    },
+    "delta_sbp": {
+      "value": -0.5,
+      "se": 1.0,
+      "source": "Derived (assumption: attenuated SBP effect under non-adherence; placeholder for clinician review)"
+    },
+    "delta_egfr": {
+      "value": -0.5,
+      "se": 1.0,
+      "source": "Derived (assumption: minimal eGFR change consistent with non-adherence; placeholder for clinician review)"
+    }
+  },
+  "design_priors": {
+    "placebo_rate_per_yr": 0.024,
+    "ltfu_fraction": 0.05,
+    "adherence_proxy": 0.40
+  }
+}

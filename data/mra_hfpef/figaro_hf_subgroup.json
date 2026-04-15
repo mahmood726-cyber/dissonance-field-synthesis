@@ -1,0 +1,71 @@
+{
+  "trial_id": "FIGARO-DKD-HF-subgroup",
+  "drug": "finerenone",
+  "mr_occupancy_equivalent": 1.2,
+  "anchor_covariates": {
+    "lvef": 57.0,
+    "egfr": 67.80,
+    "age": 64.13,
+    "baseline_k": 4.3,
+    "dm_fraction": 1.0,
+    "mr_occupancy": 1.2,
+    "adherence_proxy": 0.88
+  },
+  "covariate_ranges": {
+    "lvef": [40.0, 75.0],
+    "egfr": [25.0, 110.0],
+    "age": [40.0, 85.0],
+    "baseline_k": [3.5, 5.5],
+    "dm_fraction": [0.8, 1.0],
+    "mr_occupancy": [0.8, 1.6],
+    "adherence_proxy": [0.6, 1.0]
+  },
+  "outcomes": {
+    "primary_composite": {
+      "log_hr": -0.139262,
+      "se": 0.064856,
+      "baseline_prop": 1.0,
+      "source": "PMID:34449181 (Pitt NEJM 2021; NCT02545049 CT.gov resultsSection outcome 0: CV composite HR 0.87, 95% CI 0.76-0.98; stratified Cox model; this is the primary endpoint used as primary for DFS HF subgroup analysis)"
+    },
+    "acm": {
+      "log_hr": -0.116534,
+      "se": 0.07668,
+      "baseline_prop": 1.0,
+      "source": "PMID:34449181 (Pitt NEJM 2021; NCT02545049 CT.gov resultsSection outcome 3: ACM HR 0.89, 95% CI 0.77-1.04; stratified Cox model)"
+    },
+    "cv_death": {
+      "log_hr": -0.139262,
+      "se": 0.085,
+      "baseline_prop": 0.60,
+      "source": "Derived (assumption: CV death HR approximated at 0.87 matching CV composite; PMID:34449181 does not separately report CV death CI; baseline_prop 0.60 typical CV fraction; placeholder for clinician review)"
+    },
+    "non_cv_death": {
+      "log_hr": -0.073518,
+      "se": 0.120,
+      "baseline_prop": 0.40,
+      "source": "Derived from conservation law: non_cv HR = (ACM_HR - 0.60 x CV_death_HR) / 0.40 approx 0.925; CI approximate; PMID:34449181 does not separately report non-CV death; placeholder for clinician review"
+    }
+  },
+  "safety": {
+    "delta_k": {
+      "value": 0.18,
+      "se": 0.04,
+      "source": "Derived (assumption: finerenone delta-K ~+0.18 mmol/L at higher baseline eGFR (68 mL/min); lower than FIDELIO given better renal function; extrapolated from FIGARO-DKD population; PMID:34449181; placeholder for clinician review)"
+    },
+    "delta_sbp": {
+      "value": -1.5,
+      "se": 0.7,
+      "source": "Derived (assumption: ~1.5 mmHg SBP reduction; PMID:34449181 supplementary; placeholder for clinician review)"
+    },
+    "delta_egfr": {
+      "value": -2.5,
+      "se": 0.9,
+      "source": "Derived (assumption: acute eGFR dip smaller at higher baseline eGFR; PMID:34449181; placeholder for clinician review)"
+    }
+  },
+  "design_priors": {
+    "placebo_rate_per_yr": 0.10,
+    "ltfu_fraction": 0.05,
+    "adherence_proxy": 0.88
+  }
+}
