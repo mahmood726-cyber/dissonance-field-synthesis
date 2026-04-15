@@ -41,11 +41,18 @@ def pairwise_dissonance(
         sa = a.outcomes[outcome]["se"]
         sb = b.outcomes[outcome]["se"]
         denom = math.sqrt(sa**2 + sb**2)
-        if denom == 0.0:
+        if denom < 1e-12:
             raise ZeroDivisionError(
-                f"Both trials have zero SE for {outcome!r}; cannot compute dissonance"
+                f"Near-zero combined SE for {outcome!r} "
+                f"({a.trial_id!r} SE={sa}, {b.trial_id!r} SE={sb}); "
+                "cannot compute dissonance"
             )
         d = abs(la - lb) / denom
+        if a.anchor_covariates.keys() != b.anchor_covariates.keys():
+            raise KeyError(
+                f"Covariate key mismatch between {a.trial_id!r} and {b.trial_id!r}: "
+                f"{sorted(set(a.anchor_covariates) ^ set(b.anchor_covariates))}"
+            )
         cov_delta = {
             k: b.anchor_covariates[k] - a.anchor_covariates[k]
             for k in a.anchor_covariates
