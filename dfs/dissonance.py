@@ -10,6 +10,14 @@ from dfs.schema import TrialBoundaryCondition
 
 @dataclass(frozen=True)
 class DissonancePair:
+    """Pairwise dissonance between two trials.
+
+    Convention: `log_hr_delta` and `covariate_delta` entries are
+    computed as (trial_b - trial_a) where (trial_a, trial_b) is the
+    pair tuple produced by itertools.combinations. The scalar `d`
+    uses abs() so is direction-invariant.
+    """
+
     trial_ids: tuple[str, str]
     outcome: str
     d: float
@@ -46,7 +54,7 @@ def pairwise_dissonance(
             trial_ids=(a.trial_id, b.trial_id),
             outcome=outcome,
             d=d,
-            log_hr_delta=la - lb,
+            log_hr_delta=lb - la,
             covariate_delta=cov_delta,
         ))
     return pairs
