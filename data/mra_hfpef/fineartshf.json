@@ -25,48 +25,48 @@
       "log_hr": -0.174353,
       "se": 0.063727,
       "baseline_prop": 1.0,
-      "source": "PMID:39225278 (Solomon NEJM 2024; NCT04435626 CT.gov resultsSection: rate ratio 0.84, 95% CI 0.74-0.95; stratified Andersen-Gill model; note: rate ratio, not Cox HR)"
+      "source": "AACT NCT04435626 outcome_id=211389563 analysis_id=105586807 (rate ratio 0.84, 95% CI 0.74-0.95, p=0.0072; stratified Andersen-Gill model); PMID:39225278 (Solomon NEJM 2024); note: rate ratio, not Cox HR — log-HR interpretation approximate"
     },
     "acm": {
       "log_hr": -0.072571,
       "se": 0.062398,
       "baseline_prop": 1.0,
-      "source": "PMID:39225278 (Solomon NEJM 2024; NCT04435626 CT.gov resultsSection outcome 7: cause-specific HR 0.93, 95% CI 0.83-1.06; stratified Cox model)"
+      "source": "AACT NCT04435626 outcome_id=211389570 analysis_id=105586812 (cause-specific HR 0.93, 95% CI 0.83-1.06, p=0.2794; stratified log-rank; Full Analysis Set); PMID:39225278 (Solomon NEJM 2024)"
     },
     "cv_death": {
       "log_hr": -0.094311,
       "se": 0.071585,
       "baseline_prop": 0.60,
-      "source": "Derived (assumption: CV death HR 0.91 from Lancet IPD MRA meta-analysis PMID:39232490; CI approximated using HF hosp SE as proxy; baseline_prop 0.60 = typical CV fraction of ACM in HFpEF; placeholder for clinician review)"
+      "source": "Derived (assumption: CV death HR 0.91 from Lancet IPD MRA meta-analysis PMID:39232490; CI approximated using HF hosp SE as proxy; baseline_prop 0.60 = typical CV fraction of ACM in HFpEF; AACT NCT04435626 does not separately report CV death; placeholder for clinician review)"
     },
     "non_cv_death": {
       "log_hr": -0.040822,
       "se": 0.095,
       "baseline_prop": 0.40,
-      "source": "Derived from conservation law: non_cv HR = (ACM_HR - 0.60 x CV_death_HR) / 0.40 = 0.96; CI approximate; placeholder for clinician review"
+      "source": "Derived from conservation law: non_cv HR = (ACM_HR - 0.60 x CV_death_HR) / 0.40 = 0.96; CI approximate; AACT NCT04435626 does not separately report non-CV death; placeholder for clinician review"
     },
     "hf_hosp": {
       "log_hr": -0.198451,
       "se": 0.071585,
       "baseline_prop": 1.0,
-      "source": "PMID:39225278 (Solomon NEJM 2024; NCT04435626 CT.gov resultsSection outcome 2: rate ratio 0.82, 95% CI 0.71-0.94; Andersen-Gill model; note: rate ratio for total recurrent HF events)"
+      "source": "AACT NCT04435626 outcome_id=211389565 analysis_id=105586808 (rate ratio 0.82, 95% CI 0.71-0.94, p=0.0062; stratified Andersen-Gill model; total recurrent HF events); PMID:39225278 (Solomon NEJM 2024); note: rate ratio, not Cox HR"
     }
   },
   "safety": {
     "delta_k": {
       "value": 0.18,
       "se": 0.04,
-      "source": "Derived (assumption: finerenone delta-K ~+0.18 mmol/L in HFpEF population; based on FIDELIO/FIGARO DKD data and smaller HFpEF-range eGFR effect; NCT04435626 CT.gov does not report continuous delta-K; placeholder for clinician review)"
+      "source": "Derived (assumption: finerenone delta-K ~+0.18 mmol/L in HFpEF population; based on FIDELIO/FIGARO DKD data and smaller HFpEF-range eGFR effect; AACT NCT04435626 baseline_measurements does not report serum potassium change; placeholder for clinician review)"
     },
     "delta_sbp": {
       "value": -1.0,
       "se": 0.6,
-      "source": "Derived (assumption: modest SBP reduction ~1 mmHg; placeholder for clinician review; NCT04435626 CT.gov does not report continuous SBP change)"
+      "source": "Derived (assumption: modest SBP reduction ~1 mmHg; placeholder for clinician review; AACT NCT04435626 baseline_measurements does not report continuous SBP change)"
     },
     "delta_egfr": {
       "value": -2.5,
       "se": 0.8,
-      "source": "Derived (assumption: small acute eGFR dip typical of MRA class; NCT04435626 CT.gov does not report continuous eGFR change; placeholder for clinician review)"
+      "source": "Derived (assumption: small acute eGFR dip typical of MRA class; AACT NCT04435626 baseline_measurements does not report continuous eGFR change; placeholder for clinician review)"
     }
   },
   "design_priors": {

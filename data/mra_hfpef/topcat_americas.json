@@ -5,7 +5,7 @@
   "anchor_covariates": {
     "lvef": 58.0,
     "egfr": 66.0,
-    "age": 72.0,
+    "age": 68.7,
     "baseline_k": 4.3,
     "dm_fraction": 0.32,
     "mr_occupancy": 1.0,
@@ -25,48 +25,60 @@
       "log_hr": -0.198451,
       "se": 0.089505,
       "baseline_prop": 1.0,
-      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 2: Americas HR 0.82, 95% CI 0.69-0.98)"
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 2: Americas HR 0.82, 95% CI 0.69-0.98); AACT NCT00094302 outcome_id=211249231 confirms full-trial pooled HR 0.89 [0.77-1.04] as sanity anchor"
     },
     "acm": {
       "log_hr": -0.18633,
       "se": 0.100922,
       "baseline_prop": 1.0,
-      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas ACM HR 0.83, 95% CI 0.68-1.01)"
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas ACM HR 0.83, 95% CI 0.68-1.01); AACT NCT00094302 outcome_id=211249235 confirms full-trial pooled ACM HR 0.91 [0.77-1.08] — regional value from Pfeffer 2015 preferred here"
     },
     "cv_death": {
       "log_hr": -0.127833,
       "se": 0.111684,
       "baseline_prop": 0.60,
-      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas CV death HR 0.88, 95% CI 0.71-1.10)"
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas CV death HR 0.88, 95% CI 0.71-1.10); AACT NCT00094302 outcome_id=211249232 confirms full-trial pooled CV mortality HR 0.90 [0.73-1.12] as sanity anchor"
     },
     "non_cv_death": {
       "log_hr": -0.281038,
       "se": 0.250212,
       "baseline_prop": 0.40,
-      "source": "Derived from ACM conservation (ACM=0.83; CV fraction=0.60; non-CV HR approx 0.755; CI approximate)"
+      "source": "Derived from ACM conservation (ACM=0.83; CV fraction=0.60; non-CV HR approx 0.755; CI approximate); AACT does not separately report non-CV death; Pfeffer 2015 PMID:25552772 does not provide Americas-specific non-CV death CI"
     },
     "hf_hosp": {
       "log_hr": -0.198451,
       "se": 0.108537,
       "baseline_prop": 1.0,
-      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas HF hosp HR 0.82, 95% CI 0.66-1.01)"
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 3: Americas HF hosp HR 0.82, 95% CI 0.66-1.01); AACT NCT00094302 outcome_id=211249234 confirms full-trial pooled HF hosp HR 0.83 [0.69-0.99] — consistent"
+    },
+    "sudden_death": {
+      "log_hr": -0.040822,
+      "se": 0.184327,
+      "baseline_prop": 0.15,
+      "source": "AACT NCT00094302 outcome_id=211249239 analysis_id=105516863 (Composite of Sudden Death or Aborted Cardiac Arrest HR 0.96, 95% CI 0.67-1.38, p=0.82; Log Rank; full-trial pooled — Americas-specific value not in AACT; regional split only in PMID:25552772 supplementary)"
+    },
+    "mi": {
+      "log_hr": 0.0,
+      "se": 0.176823,
+      "baseline_prop": 0.10,
+      "source": "AACT NCT00094302 outcome_id=211249242 analysis_id=105516866 (Myocardial Infarction HR 1.00, 95% CI 0.71-1.42, p=0.98; Log Rank; full-trial pooled — Americas-specific value not in AACT)"
     }
   },
   "safety": {
     "delta_k": {
       "value": 0.20,
       "se": 0.05,
-      "source": "Derived (assumption: typical MRA effect +0.2 mmol/L; no Americas-specific subgroup table available in PMID:25552772)"
+      "source": "Derived (assumption: typical MRA effect +0.2 mmol/L; no Americas-specific subgroup table available in PMID:25552772; AACT NCT00094302 baseline_measurements does not report serum potassium)"
     },
     "delta_sbp": {
       "value": -1.5,
       "se": 0.8,
-      "source": "Derived (assumption: modest SBP reduction in HFpEF population; no Americas-specific value in PMID:25552772)"
+      "source": "Derived (assumption: modest SBP reduction in HFpEF population; no Americas-specific value in PMID:25552772; AACT NCT00094302 baseline_measurements does not report SBP change)"
     },
     "delta_egfr": {
       "value": -3.0,
       "se": 1.0,
-      "source": "Derived (assumption: modest acute eGFR dip with MRA in HFpEF; no Americas-specific value in PMID:25552772)"
+      "source": "Derived (assumption: modest acute eGFR dip with MRA in HFpEF; no Americas-specific value in PMID:25552772; AACT NCT00094302 baseline_measurements does not report delta-eGFR)"
     }
   },
   "design_priors": {

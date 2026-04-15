@@ -25,42 +25,42 @@
       "log_hr": -0.139262,
       "se": 0.064856,
       "baseline_prop": 1.0,
-      "source": "PMID:34449181 (Pitt NEJM 2021; NCT02545049 CT.gov resultsSection outcome 0: CV composite HR 0.87, 95% CI 0.76-0.98; stratified Cox model; this is the primary endpoint used as primary for DFS HF subgroup analysis)"
+      "source": "AACT NCT02545049 outcome_id=211209855 analysis_id=105497607 (CV composite HR 0.87, 95% CI 0.76-0.98, p=0.0264; Log Rank; stratified Cox model); PMID:34449181 (Pitt NEJM 2021); note: whole-trial CV composite used as DFS HF-subgroup primary anchor — HF-subgroup-specific HR not separately reported in AACT"
     },
     "acm": {
       "log_hr": -0.116534,
       "se": 0.07668,
       "baseline_prop": 1.0,
-      "source": "PMID:34449181 (Pitt NEJM 2021; NCT02545049 CT.gov resultsSection outcome 3: ACM HR 0.89, 95% CI 0.77-1.04; stratified Cox model)"
+      "source": "AACT NCT02545049 outcome_id=211209858 analysis_id=105497610 (ACM HR 0.89, 95% CI 0.77-1.04, p=0.1337; Log Rank; stratified Cox model); PMID:34449181 (Pitt NEJM 2021); whole-trial value — HF subgroup ACM not separately reported in AACT"
     },
     "cv_death": {
       "log_hr": -0.139262,
       "se": 0.085,
       "baseline_prop": 0.60,
-      "source": "Derived (assumption: CV death HR approximated at 0.87 matching CV composite; PMID:34449181 does not separately report CV death CI; baseline_prop 0.60 typical CV fraction; placeholder for clinician review)"
+      "source": "Derived (assumption: CV death HR approximated at 0.87 matching CV composite; PMID:34449181 does not separately report CV death CI; AACT NCT02545049 does not separately report CV death; baseline_prop 0.60 typical CV fraction; placeholder for clinician review)"
     },
     "non_cv_death": {
       "log_hr": -0.073518,
       "se": 0.120,
       "baseline_prop": 0.40,
-      "source": "Derived from conservation law: non_cv HR = (ACM_HR - 0.60 x CV_death_HR) / 0.40 approx 0.925; CI approximate; PMID:34449181 does not separately report non-CV death; placeholder for clinician review"
+      "source": "Derived from conservation law: non_cv HR = (ACM_HR - 0.60 x CV_death_HR) / 0.40 approx 0.925; CI approximate; PMID:34449181 does not separately report non-CV death; AACT NCT02545049 does not separately report non-CV death; placeholder for clinician review"
     }
   },
   "safety": {
     "delta_k": {
       "value": 0.18,
       "se": 0.04,
-      "source": "Derived (assumption: finerenone delta-K ~+0.18 mmol/L at higher baseline eGFR (68 mL/min); lower than FIDELIO given better renal function; extrapolated from FIGARO-DKD population; PMID:34449181; placeholder for clinician review)"
+      "source": "Derived (assumption: finerenone delta-K ~+0.18 mmol/L at higher baseline eGFR (68 mL/min); lower than FIDELIO given better renal function; extrapolated from FIGARO-DKD population; PMID:34449181; AACT NCT02545049 baseline_measurements does not report serum potassium change; placeholder for clinician review)"
     },
     "delta_sbp": {
       "value": -1.5,
       "se": 0.7,
-      "source": "Derived (assumption: ~1.5 mmHg SBP reduction; PMID:34449181 supplementary; placeholder for clinician review)"
+      "source": "Derived (assumption: ~1.5 mmHg SBP reduction; PMID:34449181 supplementary; AACT NCT02545049 baseline_measurements does not report SBP change; placeholder for clinician review)"
     },
     "delta_egfr": {
       "value": -2.5,
       "se": 0.9,
-      "source": "Derived (assumption: acute eGFR dip smaller at higher baseline eGFR; PMID:34449181; placeholder for clinician review)"
+      "source": "Derived (assumption: acute eGFR dip smaller at higher baseline eGFR; PMID:34449181; AACT NCT02545049 baseline_measurements does not report delta-eGFR; placeholder for clinician review)"
     }
   },
   "design_priors": {

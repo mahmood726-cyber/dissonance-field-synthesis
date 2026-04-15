@@ -25,42 +25,42 @@
       "log_hr": 0.09531,
       "se": 0.165263,
       "baseline_prop": 1.0,
-      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 2: Russia/Georgia HR 1.10, 95% CI 0.79-1.51)"
+      "source": "PMID:25552772 (Pfeffer Circulation 2015, Table 2: Russia/Georgia HR 1.10, 95% CI 0.79-1.51); AACT NCT00094302 outcome_id=211249231 confirms full-trial pooled HR 0.89 [0.77-1.04] — divergence from full trial is the non-adherence signal"
     },
     "acm": {
       "log_hr": 0.0,
       "se": 0.165966,
       "baseline_prop": 1.0,
-      "source": "Derived (assumption: HR 1.00, 95% CI 0.72-1.38; approximated from overall ACM symmetry in non-adherent arm; PMID:25552772 does not report Russia/Georgia ACM subgroup CI)"
+      "source": "Derived (assumption: HR 1.00, 95% CI 0.72-1.38; approximated from overall ACM symmetry in non-adherent arm; PMID:25552772 does not report Russia/Georgia ACM subgroup CI; AACT NCT00094302 outcome_id=211249235 gives only full-trial pooled ACM HR 0.91 [0.77-1.08] — regional split not in AACT)"
     },
     "cv_death": {
       "log_hr": 0.09531,
       "se": 0.216147,
       "baseline_prop": 0.60,
-      "source": "Derived (assumption: HR 1.10, 95% CI 0.72-1.68; approximate; non-adherence attenuates CV protection; PMID:25552772)"
+      "source": "Derived (assumption: HR 1.10, 95% CI 0.72-1.68; approximate; non-adherence attenuates CV protection; PMID:25552772; AACT NCT00094302 outcome_id=211249232 gives only full-trial pooled CV mortality HR 0.90 [0.73-1.12] — regional split not in AACT)"
     },
     "non_cv_death": {
       "log_hr": 0.0,
       "se": 0.260,
       "baseline_prop": 0.40,
-      "source": "Derived (assumption: HR 1.00; non-CV death unaffected by non-adherent MRA; CI approximate; placeholder for clinician review)"
+      "source": "Derived (assumption: HR 1.00; non-CV death unaffected by non-adherent MRA; CI approximate; placeholder for clinician review; AACT does not separately report non-CV death for NCT00094302)"
     }
   },
   "safety": {
     "delta_k": {
       "value": 0.02,
       "se": 0.05,
-      "source": "Derived (assumption: near-zero delta-K consistent with non-adherence signal in Russia/Georgia; spironolactone metabolite serum levels near zero reported in PMID:25552772 editorial commentary)"
+      "source": "Derived (assumption: near-zero delta-K consistent with non-adherence signal in Russia/Georgia; spironolactone metabolite serum levels near zero reported in PMID:25552772 editorial commentary; AACT NCT00094302 baseline_measurements does not report serum potassium change)"
     },
     "delta_sbp": {
       "value": -0.5,
       "se": 1.0,
-      "source": "Derived (assumption: attenuated SBP effect under non-adherence; placeholder for clinician review)"
+      "source": "Derived (assumption: attenuated SBP effect under non-adherence; placeholder for clinician review; AACT NCT00094302 baseline_measurements does not report SBP change)"
     },
     "delta_egfr": {
       "value": -0.5,
       "se": 1.0,
-      "source": "Derived (assumption: minimal eGFR change consistent with non-adherence; placeholder for clinician review)"
+      "source": "Derived (assumption: minimal eGFR change consistent with non-adherence; placeholder for clinician review; AACT NCT00094302 baseline_measurements does not report delta-eGFR)"
     }
   },
   "design_priors": {
