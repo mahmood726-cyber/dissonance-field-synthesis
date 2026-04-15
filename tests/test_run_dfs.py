@@ -10,7 +10,7 @@ def test_run_dfs_completes_and_produces_artefacts(tmp_path: Path) -> None:
          "--manifest", "data/mra_hfpef/MANIFEST.json",
          "--out", str(out_dir)],
         capture_output=True, text=True,
-        timeout=300,
+        timeout=600,  # ML-II + CVXPY import on this machine takes ~100-150s
     )
     assert result.returncode == 0, f"STDERR:\n{result.stderr}"
     assert (out_dir / "dissonance.csv").exists()

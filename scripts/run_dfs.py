@@ -13,6 +13,7 @@ from dfs.diagnostics import detect_conservation_violations
 from dfs.dissonance import pairwise_dissonance
 from dfs.feasibility import feasibility_region
 from dfs.field_constrained import fit_constrained_gp
+from dfs.hyperparam import fit_hyperparameters
 from dfs.manifest import load_trials
 from dfs.mind_change import mind_change_price
 from dfs.outputs import plot_field_slice, write_dissonance_table
@@ -53,9 +54,18 @@ def main() -> int:
     ranges = np.where(maxs - mins > 0, maxs - mins, 1.0)
     x_norm = (x - mins) / ranges
 
+    # --- ML-II hyperparameter fit (Phase-1b A) ---
+    hp = fit_hyperparameters(x_norm, y, noise, n_restarts=5, seed=0)
+    print(
+        f"ML-II fitted hyperparameters:\n"
+        f"  sigma2         = {hp.sigma2:.6f}\n"
+        f"  length_scales  = {np.array2string(hp.length_scales, precision=4)}\n"
+        f"  neg_log_mll    = {hp.neg_log_marginal_likelihood:.4f}\n"
+    )
+
     gp = fit_constrained_gp(
         x_norm, y, noise,
-        sigma2=0.25, length_scales=np.full(7, 0.5),
+        sigma2=hp.sigma2, length_scales=hp.length_scales,
         inequality_constraints=[],
     )
 
