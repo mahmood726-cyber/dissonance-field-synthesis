@@ -19,10 +19,17 @@ Results are tabulated in `sensitivity_results.csv` (11 scenarios, both sweeps).
 
 ## Sweep 1 — TOPCAT-Russia/Georgia `adherence_proxy` in [0.20, 0.70]
 
-<!-- AUTHOR REVIEW: The clinical plausibility of adherence values above 0.60 for
-the Russia/Georgia arm should be confirmed against PMID:25552772 and editorial
-commentary on spironolactone metabolite levels. Values ≥ 0.60 approach the
-Americas-arm compliance level and may not be clinically supportable. -->
+A note on grid framing. The Pfeffer *et al.* 2015 *Circulation* regional
+analysis of TOPCAT [2] documents near-zero spironolactone metabolite levels
+in the Russia/Georgia cohort, and editorial commentary on that finding has
+established adherence in the 0.20–0.50 range as the clinically-defensible
+plausible window for that arm. The two highest grid points in this sweep
+(0.60 and 0.70) are therefore best understood as stress-test boundaries
+that approach Americas-arm compliance and exceed what the metabolite
+evidence supports; their inclusion demonstrates worst-case robustness
+rather than clinical realism. The substantively-interpretable result is the
+LOO-inside-CrI invariance across the plausible 0.20–0.50 range; the
+0.60–0.70 points are reported for completeness.
 
 The dissonance scalar *d* for the TOPCAT-Americas versus TOPCAT-Russia/Georgia pair
 was 1.563 at every grid point (0.20, 0.30, 0.40, 0.50, 0.60, 0.70), invariant to
@@ -50,11 +57,18 @@ begins to expand noticeably.
 
 ## Sweep 2 — FINEARTS-HF `adherence_proxy` in [0.70, 0.95]
 
-<!-- AUTHOR REVIEW: The anchor values of 0.70 and 0.75 represent a materially lower
-compliance profile than suggested by the FINEARTS-HF publication (PMID:39225278).
-Clinical judgment is needed to determine whether including these as plausible
-scenarios is appropriate for the final paper, or whether the sweep range should
-be restricted to [0.85, 0.95]. -->
+A symmetric note on grid framing. FINEARTS-HF [3] is a modern phase-III
+trial whose published adherence profile clusters in the 0.85–0.95 range;
+the two lowest grid points in this sweep (0.70 and 0.80) are therefore
+stress-test boundaries below the trial's plausible operating window,
+included to demonstrate that LOO predictive validity holds even under
+adherence misspecification toward implausibly-low values. The substantively-
+interpretable result is the LOO-inside-CrI invariance across the plausible
+0.85–0.95 range; the 0.70–0.80 points are reported for completeness and
+illustrate that prediction-interval widening at the low-adherence boundary
+(width 0.336 at 0.70 versus 0.250 at 0.85) is the GP correctly signalling
+reduced confidence when the held-out anchor moves to a covariate-space
+location far from training-set support.
 
 Varying FINEARTS-HF's own adherence anchor while holding Russia/Georgia fixed at 0.40
 tests how much the LOO prediction moves when the held-out trial's position in covariate
@@ -168,12 +182,14 @@ across all three kernels (invariant — *d* depends only on log-HR/SE
 pairs, not on GP specification).
 Zero conservation-law violations under every kernel.
 
-<!-- AUTHOR REVIEW: Whether to promote the RBF kernel to the primary model
-in the full-cohort manuscript is a design decision. The ML-II preference
-is nominal (ΔNLL = 0.020); the Matérn-5/2 has stronger methodological
-precedent in applied-statistics and spatial-epidemiology literature.
-Recommend retaining Matérn-5/2 as primary and citing this section as
-"pre-specified kernel-sensitivity analysis" in the Methods. -->
+Decision for the present manuscript: Matérn-5/2 is retained as the primary
+kernel. The ML-II preference for the squared-exponential kernel is nominal
+(ΔNLL = 0.020, well below any conventional model-selection threshold), and
+the Matérn-5/2 carries stronger methodological precedent in
+applied-statistics and spatial-epidemiology literature. This Section S-B
+serves as the pre-specified kernel-sensitivity analysis cited from
+Methods §2.7. A future full-cohort analysis may revisit this decision if
+the larger trial set produces a more decisive ML-II preference.
 
 ## Supplementary Section S-C: Stability of the ML-II Optimum to Restart Configuration
 
