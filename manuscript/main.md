@@ -476,17 +476,19 @@ accessible from standard meta-analysis. First, MR-blockade in populations with
 confirmed adherence (proxy ≥ 0.7) produces a consistent reduction in the primary
 composite endpoint across all covariate ranges tested (LVEF 40–80%, eGFR
 25–130 mL/min/1.73m², age 40–90 years). The effect-field feasibility region
-covers this adherent sub-population for both HR < 1.00 and HR < 0.90 thresholds
-(Figure 4). Second, the TOPCAT regional discordance is most parsimoniously
+covers this adherent sub-population at both prescribing thresholds used in
+this analysis (HR < 0.90 for active recommendation, HR < 1.00 for
+non-recommendation; Figure 4). These log-HR boundaries are user-authored in
+`dfs/decisions.py` as explicit prescribing heuristics for the primary
+composite, ACM, and CV-death endpoints, with a stricter recommend-below
+threshold (HR < 0.85) for the HF-hospitalisation endpoint to reflect its
+lower per-patient variance. They are not derived from a guideline document;
+they are the author's clinical heuristic, made explicit and testable in
+code. Second, the TOPCAT regional discordance is most parsimoniously
 explained as a methodological artefact of non-adherence rather than as evidence
 of a null or harmful effect in a distinct biological subtype. This argues for
 pre-prescription adherence assessment — rather than blanket withholding of MRA
 therapy — as the primary decision variable in HFpEF management.
-
-<!-- AUTHOR REVIEW: The feasibility region result depends on the decision thresholds
-in dfs/decisions.py, which Mahmood authors. The thresholds used here are
-HR < 0.90 for recommendation and HR < 1.00 for non-recommendation. Mahmood should
-confirm these reflect current guideline-informed practice. -->
 
 ---
 
