@@ -667,26 +667,29 @@ Clinical Trials Transformation Initiative at aact.ctti-clinicaltrials.org.
 | TOPCAT-Americas | spironolactone | 1,767 | 58.0 | 66.0 | 68.7 | 32 | 0.85 | −0.198 (0.090) | PMID:25552772 [2] |
 | TOPCAT-Russia/Georgia | spironolactone | 1,066 | 57.0 | 81.0 | 65.0 | 19 | 0.40 | +0.095 (0.165) | PMID:25552772 [2] |
 | FINEARTS-HF | finerenone | 6,001 | 52.6 | 60.0 | 72.0 | 45 | 0.90 | −0.174 (0.064) | PMID:39225278 [3] |
-| FIDELIO-DKD HF-subgroup | finerenone | ~1,300 | 55.0 | 44.3 | 65.6 | 100 | 0.88 | −0.151 (0.072) | PMID:33264825 [4] |
-| FIGARO-DKD HF-subgroup | finerenone | ~1,100 | 57.0 | 67.8 | 64.3 | 100 | 0.88 | −0.139 (0.065) | PMID:34449181 [5] |
+| FIDELIO-DKD HF-subgroup | finerenone | 436 | 55.0 | 44.3 | 65.6 | 100 | 0.88 | −0.151 (0.072)* | PMID:33264825 [4]; HF-subgroup PMID:35119760 [11] |
+| FIGARO-DKD HF-subgroup | finerenone | 571 | 57.0 | 67.8 | 64.3 | 100 | 0.88 | −0.139 (0.065)* | PMID:34449181 [5]; HF-subgroup PMID:34775784 [12] |
 | Aldo-DHF | spironolactone | 422 | 67.0 | 68.0 | 67.0 | 16 | 0.80 | 0.0 (0.354)* | PMID:23440502 [6] |
 
-*Conservative placeholder; primary endpoint was diastolic function, not MACE. See §2.2.
+*Aldo-DHF: conservative placeholder; primary endpoint was diastolic function,
+not MACE. See §2.2.
 
-FIGARO log-HR/SE values now populated from `figaro_hf_subgroup.json`
-(log-HR = −0.139, SE = 0.065; primary composite anchor). The tilde-prefixed n
-values (~1,300 for FIDELIO-DKD HF-subgroup, ~1,100 for FIGARO-DKD HF-subgroup)
-are order-of-magnitude estimates derived from reported HF-prevalence fractions
-in the parent trials (FIDELIO-DKD n = 5,734, ~23% with baseline HF per
-PMID:33198491; FIGARO-DKD n = 7,437, ~15% with baseline HF per the
-corresponding subgroup analysis).
+*FIDELIO-DKD HF-subgroup and FIGARO-DKD HF-subgroup: the log-HR/SE values
+shown are the parent-trial CV composite (CV death + non-fatal MI/stroke + HF
+hospitalisation) anchors used in the DFS field, not the HF-subgroup-specific
+HRs. The dedicated HF-subgroup publications (Filippatos 2022 EJHF [11] for
+FIDELIO; Filippatos 2022 Circulation [12] for FIGARO) report HF-subgroup-
+specific HRs that differ from the whole-trial values (FIDELIO HF-subgroup
+CV composite HR 0.73, 95% CI 0.50–1.06; the wider CI reflects the smaller
+n = 436); a Phase-2 analysis should consider replacing the whole-trial
+anchor with the subgroup-specific value.
 
-<!-- AUTHOR REVIEW: Mahmood to confirm the exact HF-subgroup sample sizes
-against the primary FIDELIO/FIGARO subgroup publications (PMID:33198491 for
-FIDELIO; the analogous FIGARO HF-subgroup paper). The tilde-prefixed values
-above are sufficient for the DFS field fit (which uses each trial's anchor
-covariates and reported SE, not n directly) but the table should carry
-exact numbers before submission. -->
+HF-subgroup sample sizes (n = 436 for FIDELIO; n = 571 for FIGARO; verified
+2026-04-16) are derived from prespecified history-of-HF subgroup analyses
+in the cited subgroup publications, not from the parent FIDELIO-DKD trial
+(n = 5,674) or FIGARO-DKD trial (n = 7,437). The DFS field fit uses each
+trial's anchor covariates and reported SE, not n directly, so this Table 1
+correction does not change any quantitative result in §3.
 
 **Table 2. ML-II fitted ARD length-scales (full 6-trial dataset, normalised
 covariate space).**
@@ -763,6 +766,19 @@ Signal variance σ² = 0.021; negative log marginal likelihood = −5.72.
     antagonists in heart failure: an individual patient level meta-analysis.
     *Lancet* 2024;404(10458):1119–1131. PMID:39232490.
     DOI 10.1016/S0140-6736(24)01733-1.
+
+11. Filippatos G, Pitt B, Agarwal R, et al. Finerenone in patients with chronic
+    kidney disease and type 2 diabetes with and without heart failure: a
+    prespecified subgroup analysis of the FIDELIO-DKD trial.
+    *European Journal of Heart Failure* 2022;24(6):996–1005.
+    PMID:35119760. DOI 10.1002/ejhf.2469. (HF-subgroup n = 436 of 5,674.)
+
+12. Filippatos G, Anker SD, Pitt B, et al. Finerenone Reduces Risk of Incident
+    Heart Failure in Patients With Chronic Kidney Disease and Type 2 Diabetes:
+    Analyses From the FIGARO-DKD Trial.
+    *Circulation* 2022;145(6):437–447.
+    PMID:34775784. DOI 10.1161/CIRCULATIONAHA.121.057983.
+    (HF-subgroup n = 571 of 7,352: 290 finerenone + 281 placebo.)
 
 Reference 8 confirmed against `manuscript/references.bib`:
 Da Veiga S, Marrel A. Gaussian process regression with linear inequality
