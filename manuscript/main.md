@@ -89,8 +89,10 @@ Heart failure with preserved ejection fraction remains one of the most
 treatment-refractory syndromes in cardiology. Despite a mechanistically
 compelling rationale — aldosterone-mediated myocardial fibrosis is a dominant
 histopathological substrate in HFpEF — MRA prescribing remains inconsistent
-across international guidelines and everyday practice [CITE]. The inconsistency
-traces to a single canonical discordance: TOPCAT.
+across international guidelines and everyday practice: the 2022 AHA/ACC/HFSA
+heart failure guideline [9] assigns spironolactone a Class IIb (weak)
+recommendation in HFpEF, reflecting the unresolved TOPCAT signal. The
+inconsistency traces to a single canonical discordance: TOPCAT.
 
 Spironolactone in TOPCAT reduced the primary composite endpoint by 11% overall
 (hazard ratio 0.89, 95% CI 0.77–1.04, p = 0.14) [1], a result that crossed
@@ -515,14 +517,15 @@ framework for stating this quantitatively rather than as narrative speculation.
 
 ### 4.2 Comparison with prior syntheses
 
-Conventional DerSimonian–Laird [7] and REML random-effects meta-analyses of MRA
-in HFpEF produce pooled estimates close to the full-trial TOPCAT HR of 0.89
-with substantive heterogeneity.
-<!-- AUTHOR REVIEW: The prior draft cited I² = 30–50% as an approximate
-literature range. Mahmood to provide the authoritative source; candidate
-anchor is a recent MRA-HFpEF meta-analysis (e.g. Zheng JACC HF 2021 or the
-most recent ESC HFA position paper). Replace the "substantive heterogeneity"
-hedge with the cited numeric I² once confirmed. -->
+The current authoritative synthesis of MRA efficacy in HF is the Jhund *et
+al.* 2024 Lancet individual patient data meta-analysis of four trials (RALES,
+EMPHASIS-HF, TOPCAT, FINEARTS-HF) comprising 13,846 patients [10]. That
+analysis reports a pooled hazard ratio of 0.87 (95% CI 0.79–0.95) for
+cardiovascular death or heart-failure hospitalisation in the HFmrEF/HFpEF
+subset, with a statistically significant between-subgroup interaction
+(p = 0.0012) between HFrEF (HR 0.66, 95% CI 0.59–0.73) and HFmrEF/HFpEF,
+which conventional heterogeneity metrics absorb as unexplained variance
+rather than as adherence-explained covariate structure.
 The heterogeneity parameter
 absorbs the regional TOPCAT signal as unexplained variance and cannot distinguish
 non-adherence from effect modification. In contrast, DFS assigns the entire
@@ -749,6 +752,17 @@ Signal variance σ² = 0.021; negative log marginal likelihood = −5.72.
 8. Da Veiga S, Marrel A. Gaussian process regression with linear inequality
    constraints. *Reliability Engineering and System Safety* 2020;195:106732.
    DOI 10.1016/j.ress.2019.106732.
+
+9. Heidenreich PA, Bozkurt B, Aguilar D, et al. 2022 AHA/ACC/HFSA Guideline
+   for the Management of Heart Failure: A Report of the American College of
+   Cardiology/American Heart Association Joint Committee on Clinical Practice
+   Guidelines. *Circulation* 2022;145(18):e895–e1032. PMID:35363499.
+   DOI 10.1161/CIR.0000000000001063.
+
+10. Jhund PS, Talebi A, Henderson AD, et al. Mineralocorticoid receptor
+    antagonists in heart failure: an individual patient level meta-analysis.
+    *Lancet* 2024;404(10458):1119–1131. PMID:39232490.
+    DOI 10.1016/S0140-6736(24)01733-1.
 
 Reference 8 confirmed against `manuscript/references.bib`:
 Da Veiga S, Marrel A. Gaussian process regression with linear inequality
