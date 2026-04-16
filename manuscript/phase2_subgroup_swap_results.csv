@@ -1,3 +1,4 @@
-scenario,fidelio_log_hr,fidelio_se,d_topcat,adherence_ls,loo_mu,loo_lo,loo_hi,loo_width,loo_inside
-baseline_parent_trial_anchor,-0.150823,0.071589,1.563023,0.360557,-0.134654,-0.260195,-0.009112,0.251083,True
-fidelio_hf_subgroup_anchor,-0.314711,0.191688,1.563023,0.356201,-0.141868,-0.267641,-0.016095,0.251545,True
+scenario,fidelio_log_hr,fidelio_se,figaro_log_hr,figaro_se,d_topcat,adherence_ls,loo_mu,loo_lo,loo_hi,loo_width,loo_inside
+baseline_parent_trial_anchor,-0.150823,0.071589,-0.139262,0.064856,1.563023,0.360557,-0.134654,-0.260195,-0.009112,0.251083,True
+fidelio_hf_subgroup_anchor,-0.314711,0.191688,-0.139262,0.064856,1.563023,0.356201,-0.141868,-0.267641,-0.016095,0.251545,True
+phase2b_proxy_both_swapped,-0.314711,0.191688,-0.314711,0.167727,1.563023,0.310016,-0.198183,-0.328012,-0.068353,0.259660,True

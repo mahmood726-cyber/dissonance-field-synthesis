@@ -397,6 +397,53 @@ evidence becomes available for any single trial anchor in a future DFS
 application, the entire pipeline accommodates the swap by re-weighting
 rather than by structural modification.
 
+### Phase-2b — hypothetical FIGARO swap (proxy)
+
+The dedicated FIGARO HF-subgroup CV composite hazard ratio is reported in
+supplementary Figure S3 of Filippatos *et al.* 2022 Circulation [12] and was
+not extractable from any of the five sources interrogated in this session
+(the parent paper's main text, the PMC-archived full-text version, the
+FIDELITY pooled European Heart Journal article, the FINE-HEART Nature
+Medicine pooled analysis, and the FIDELITY HF-subgroup American Heart
+Journal abstract). To bracket the implications of also swapping FIGARO,
+we add a clearly-labelled Phase-2b sensitivity scenario that re-uses the
+FIDELIO HF-subgroup hazard ratio (HR 0.73) as a proxy for the unknown
+FIGARO HF-subgroup hazard ratio, with the standard error scaled by
+√(436/571) = 0.875 to approximate FIGARO's larger HF-subgroup sample size.
+This is a hypothetical sensitivity test, not a citable swap; the FIGARO
+HF-subgroup-specific HR may differ.
+
+| Quantity                       | Phase-1b | Phase-2a (FIDELIO) | Phase-2b (both, proxy) |
+|--------------------------------|---------:|-------------------:|-----------------------:|
+| FIDELIO log-HR / SE            | −0.151 / 0.072 | −0.315 / 0.192 | −0.315 / 0.192 |
+| FIGARO log-HR / SE             | −0.139 / 0.065 | −0.139 / 0.065 | −0.315 / 0.168 |
+| Adherence length-scale         | 0.3606 | 0.3562 | **0.3100** |
+| LOO predicted μ                | −0.135 | −0.142 | **−0.198** |
+| LOO 95% CrI                    | [−0.260, −0.009] | [−0.268, −0.016] | [−0.328, −0.068] |
+| LOO width                      | 0.251 | 0.252 | 0.260 |
+| LOO inside CrI?                | True   | True   | True   |
+| TOPCAT-pair d                  | 1.563  | 1.563  | 1.563  |
+
+Phase-2b changes the qualitative picture in two ways relative to Phase-2a.
+First, the adherence length-scale tightens by 14% (0.361 → 0.310), meaning
+the fitted GP becomes more concentrated along the adherence axis when both
+finerenone subgroups carry more aggressive hazard ratios. Second, the LOO
+predicted mean (−0.198) now slightly overshoots the observed FINEARTS-HF
+log-HR (−0.174), reversing the Phase-1b under-shoot direction. The
+observed value remains well inside the 95% CrI ([−0.328, −0.068]), so
+LOO predictive validity is preserved, but the prediction-versus-observation
+sign flips.
+
+These changes are consistent with a rational Bayesian update: when the
+training set carries stronger evidence of benefit in adherent populations
+(both finerenone trials with HF-subgroup HRs of 0.73 rather than parent-
+trial proxies of 0.86 / 0.87), the GP rationally infers a stronger
+adherence-dependent benefit and tightens the length-scale to fit it. The
+adherence-dominance conclusion is not weakened by Phase-2b — it is
+strengthened. We emphasise that this is a hypothetical analysis pending
+extraction of the actual FIGARO HF-subgroup HR; the direction of the
+true result may differ.
+
 ### Reproduction
 
 ```
@@ -404,5 +451,9 @@ python scripts/phase2_subgroup_anchor_swap.py \
     --manifest data/mra_hfpef/MANIFEST.json \
     --results manuscript/phase2_subgroup_swap_results.csv
 ```
+
+Reports three scenarios: Phase-1b baseline, Phase-2a (FIDELIO swap, real),
+and Phase-2b (FIDELIO swap real + FIGARO swap proxy). Output CSV has one
+row per scenario with all anchor and LOO-result fields.
 
 

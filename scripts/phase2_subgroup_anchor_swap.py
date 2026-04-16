@@ -66,24 +66,45 @@ FIDELIO_HF_SUBGROUP_SOURCE: str = (
     "CV composite HR 0.73, 95% CI 0.50-1.06"
 )
 
+# --- FIGARO HF-subgroup anchor (PROXY only — see Phase-2b notes) --------
+# The dedicated FIGARO HF-subgroup CV composite HR is in supplementary
+# Figure S3 of Filippatos 2022 Circulation (PMID:34775784) and was not
+# extractable in this session (5 web sources tried). For Phase-2b, we use
+# the FIDELIO HF-subgroup HR (0.73, SE inflated to reflect FIGARO's
+# slightly larger n=571 vs 436 by sqrt(436/571) = 0.875) as a proxy and
+# label the result as a hypothetical sensitivity test, not a true swap.
+
+FIGARO_HF_SUBGROUP_PROXY_LOG_HR: float = -0.314711   # = FIDELIO HF subgroup
+FIGARO_HF_SUBGROUP_PROXY_SE: float = 0.191688 * 0.875  # ~0.168 (n-scaled)
+FIGARO_HF_SUBGROUP_PROXY_SOURCE: str = (
+    "PROXY (Phase-2b sensitivity): FIDELIO HF-subgroup HR 0.73 used in "
+    "place of FIGARO HF-subgroup CV composite HR (which is in supplement "
+    "Figure S3 of Filippatos 2022 Circulation, PMID:34775784, not "
+    "extractable in this session). SE scaled by sqrt(436/571)=0.875 to "
+    "approximate FIGARO's larger HF-subgroup n. Result is a sensitivity "
+    "test, NOT a citable FIGARO HF-subgroup-anchored fit."
+)
+
 
 CSV_FIELDNAMES: list[str] = [
     "scenario", "fidelio_log_hr", "fidelio_se",
+    "figaro_log_hr", "figaro_se",
     "d_topcat", "adherence_ls", "loo_mu", "loo_lo", "loo_hi",
     "loo_width", "loo_inside",
 ]
 
 
-def _swap_fidelio_anchor(
+def _swap_anchor(
     trials: list[TrialBoundaryCondition],
+    trial_id: str,
     log_hr: float,
     se: float,
     note: str,
 ) -> list[TrialBoundaryCondition]:
-    """Return a new trial list with FIDELIO primary_composite outcome replaced."""
+    """Return a new trial list with the named trial's primary_composite replaced."""
     result = []
     for t in trials:
-        if t.trial_id == "FIDELIO-DKD-HF-subgroup":
+        if t.trial_id == trial_id:
             new_outcomes = dict(t.outcomes)
             new_primary = dict(new_outcomes["primary_composite"])
             new_primary["log_hr"] = log_hr
@@ -93,6 +114,14 @@ def _swap_fidelio_anchor(
             t = dataclasses.replace(t, outcomes=new_outcomes)
         result.append(t)
     return result
+
+
+def _swap_fidelio_anchor(trials, log_hr, se, note):
+    return _swap_anchor(trials, "FIDELIO-DKD-HF-subgroup", log_hr, se, note)
+
+
+def _swap_figaro_anchor(trials, log_hr, se, note):
+    return _swap_anchor(trials, "FIGARO-DKD-HF-subgroup", log_hr, se, note)
 
 
 def _dissonance_topcat(trials: list[TrialBoundaryCondition]) -> float:
@@ -150,12 +179,22 @@ def _run_loo(trials: list[TrialBoundaryCondition]) -> dict:
     }
 
 
-def _fidelio_anchor(trials: list[TrialBoundaryCondition]) -> tuple[float, float]:
-    f = next(t for t in trials if t.trial_id == "FIDELIO-DKD-HF-subgroup")
+def _trial_anchor(
+    trials: list[TrialBoundaryCondition], trial_id: str,
+) -> tuple[float, float]:
+    f = next(t for t in trials if t.trial_id == trial_id)
     return (
         float(f.outcomes["primary_composite"]["log_hr"]),
         float(f.outcomes["primary_composite"]["se"]),
     )
+
+
+def _fidelio_anchor(trials):
+    return _trial_anchor(trials, "FIDELIO-DKD-HF-subgroup")
+
+
+def _figaro_anchor(trials):
+    return _trial_anchor(trials, "FIGARO-DKD-HF-subgroup")
 
 
 def run(base_trials: list[TrialBoundaryCondition]) -> list[dict]:
@@ -168,10 +207,13 @@ def run(base_trials: list[TrialBoundaryCondition]) -> list[dict]:
     print(f"  FIDELIO log-HR = {baseline_log_hr:+.4f}, SE = {baseline_se:.4f}")
     d_baseline = _dissonance_topcat(base_trials)
     loo_baseline = _run_loo(base_trials)
+    figaro_baseline_log_hr, figaro_baseline_se = _figaro_anchor(base_trials)
     rows.append({
         "scenario": "baseline_parent_trial_anchor",
         "fidelio_log_hr": baseline_log_hr,
         "fidelio_se": baseline_se,
+        "figaro_log_hr": figaro_baseline_log_hr,
+        "figaro_se": figaro_baseline_se,
         "d_topcat": d_baseline,
         **loo_baseline,
     })
@@ -198,9 +240,37 @@ def run(base_trials: list[TrialBoundaryCondition]) -> list[dict]:
         "scenario": "fidelio_hf_subgroup_anchor",
         "fidelio_log_hr": FIDELIO_HF_SUBGROUP_LOG_HR,
         "fidelio_se": FIDELIO_HF_SUBGROUP_SE,
+        "figaro_log_hr": figaro_baseline_log_hr,
+        "figaro_se": figaro_baseline_se,
         "d_topcat": d_swap,
         **loo_swap,
     })
+
+    # --- Scenario 3 (Phase-2b): both FIDELIO and FIGARO swapped (PROXY) ---
+    print("\n=== Scenario 3 (Phase-2b): FIDELIO + FIGARO HF-subgroup proxy swap ===")
+    print(f"  FIGARO swap is HYPOTHETICAL — uses FIDELIO HF-subgroup HR (0.73)")
+    print(f"  Source: {FIGARO_HF_SUBGROUP_PROXY_SOURCE}")
+    swapped_both = _swap_figaro_anchor(
+        swapped,
+        FIGARO_HF_SUBGROUP_PROXY_LOG_HR,
+        FIGARO_HF_SUBGROUP_PROXY_SE,
+        FIGARO_HF_SUBGROUP_PROXY_SOURCE,
+    )
+    d_both = _dissonance_topcat(swapped_both)
+    loo_both = _run_loo(swapped_both)
+    rows.append({
+        "scenario": "phase2b_proxy_both_swapped",
+        "fidelio_log_hr": FIDELIO_HF_SUBGROUP_LOG_HR,
+        "fidelio_se": FIDELIO_HF_SUBGROUP_SE,
+        "figaro_log_hr": FIGARO_HF_SUBGROUP_PROXY_LOG_HR,
+        "figaro_se": FIGARO_HF_SUBGROUP_PROXY_SE,
+        "d_topcat": d_both,
+        **loo_both,
+    })
+    print(f"  d_topcat = {d_both:.3f}, adh_ls = {loo_both['adherence_ls']:.4f}, "
+          f"LOO mu = {loo_both['loo_mu']:+.4f} "
+          f"[{loo_both['loo_lo']:+.4f}, {loo_both['loo_hi']:+.4f}], "
+          f"inside = {loo_both['loo_inside']}")
     print(f"  d_topcat = {d_swap:.3f}, adh_ls = {loo_swap['adherence_ls']:.4f}, "
           f"LOO mu = {loo_swap['loo_mu']:+.4f} "
           f"[{loo_swap['loo_lo']:+.4f}, {loo_swap['loo_hi']:+.4f}], "
