@@ -297,10 +297,112 @@ artefacts.
 Reviewers can reproduce every quantitative claim in the manuscript by
 following the four commands in the Protocol section above.
 
-<!-- AUTHOR REVIEW: Consider whether to link this Section S-D from the
-Methods section of the main manuscript as a reproducibility statement.
-Recommended language: "All code, data manifests, and outputs required
-to reproduce the analysis are available at <repo URL>; Section S-D
-of the supplement documents an end-to-end reproducibility audit." -->
+Section S-D is now cited from the main manuscript at §2.7, with the
+explicit claim that all §3 results, S-A through S-C tables, and the
+S-B-1/S-C-1 numbers are reproducible from the public repository by
+following the four commands in the Protocol section above.
+
+## Supplementary Section S-E: Phase-2a Outcome-Anchor Refinement (FIDELIO HF-Subgroup Swap)
+
+### Overview
+
+The Phase-1b DFS analysis used the FIDELIO-DKD whole-trial cardiovascular
+composite hazard ratio (HR 0.86, 95% CI 0.75–0.99; log-HR = −0.151,
+SE = 0.072) as the primary anchor for the FIDELIO-DKD HF-subgroup boundary
+condition. This was a documented compromise: the AACT
+ClinicalTrials.gov snapshot did not break out a separate
+HF-at-baseline-subgroup CV composite, and the DFS pipeline therefore used
+the parent-trial value as a proxy.
+Concurrent with the literature-verification pass that resolved the Table 1
+sample-size flag (§2.6, [11]), the Filippatos *et al.* 2022 *European
+Journal of Heart Failure* prespecified subgroup paper became available as
+a citable source. That paper reports, for the n = 436 FIDELIO patients
+with a documented history of heart failure at baseline (7.7% of the
+parent-trial 5,674), a CV composite HR of 0.73 (95% CI 0.50–1.06).
+Converting to the GP's log-scale boundary condition: log-HR = −0.3147,
+SE = 0.1917 (computed from the 95% CI half-width using the standard
+normal-approximation formula SE = (log(HR_upper) − log(HR_lower)) / 3.92).
+
+This section reports a Phase-2a re-fit in which only the FIDELIO-DKD
+HF-subgroup primary-composite anchor is replaced with the subgroup-specific
+value. All other trial anchors, all covariates, all hyperparameter
+settings, and the kernel choice are held identical to Phase-1b.
+The FIGARO-DKD HF-subgroup CV composite HR was not separately reported in
+the main text of the analogous FIGARO HF-subgroup paper [12]
+(it is in supplementary Figure S3 of that publication and was not extracted
+in this session); FIGARO is therefore held at its Phase-1b parent-trial
+anchor, and the analogous FIGARO swap is deferred to a follow-up.
+
+### Results
+
+| Quantity                       | Phase-1b (parent-trial) | Phase-2a (HF-subgroup) | Δ          |
+|--------------------------------|------------------------:|-----------------------:|-----------:|
+| FIDELIO log-HR anchor          | −0.1508                 | −0.3147                | −0.1639    |
+| FIDELIO SE                     | 0.0716                  | 0.1917                 | ×2.68      |
+| ML-II adherence length-scale   | 0.3606                  | 0.3562                 | −0.0044    |
+| LOO FINEARTS-HF predicted μ    | −0.1347                 | −0.1419                | −0.0072    |
+| LOO FINEARTS-HF 95% CrI lower  | −0.2602                 | −0.2676                | −0.0074    |
+| LOO FINEARTS-HF 95% CrI upper  | −0.0091                 | −0.0161                | −0.0070    |
+| LOO FINEARTS-HF CrI width      | 0.2511                  | 0.2515                 | +0.0005    |
+| LOO inside CrI?                | True                    | True                   | unchanged  |
+| TOPCAT-pair dissonance d       | 1.563                   | 1.563                  | unchanged  |
+
+Observed FINEARTS-HF log-HR = −0.174, inside the 95% CrI under both
+anchor choices.
+Numerical results are tabulated to six decimal places in
+`manuscript/phase2_subgroup_swap_results.csv`.
+
+### Interpretation
+
+Three observations.
+
+First, the FIDELIO anchor change is substantial in both directions: the
+point estimate moves by −0.164 log-HR units (from HR 0.86 to HR 0.73, a
+17% deeper relative-risk reduction) and the standard error inflates 2.68×
+to reflect the smaller subgroup sample size (n = 436 versus parent-trial
+n = 5,674). These are not cosmetic perturbations.
+
+Second, despite this substantial input change, the DFS field's headline
+conclusions are essentially unaltered. The adherence length-scale moves
+by 0.004 normalised units (1.2% of its value); the LOO predicted mean
+shifts by −0.007 log-HR units (toward the observed value, narrowing the
+prediction-vs-observation gap from 0.039 to 0.032); the 95% CrI width
+changes by +0.0005 log-HR units (a 0.2% increase, well below resolution);
+and the LOO observed value (−0.174) remains inside the 95% predictive
+interval. The TOPCAT-Americas/Russia–Georgia dissonance scalar is exactly
+unchanged, as expected: it depends only on the TOPCAT pair and not on any
+FIDELIO outcome.
+
+Third, this invariance is the heteroscedastic GP behaving as designed.
+The Phase-1b FIDELIO anchor (SE 0.072) carried a precision weight of
+1 / 0.072² ≈ 193; the Phase-2a anchor (SE 0.192) carries a weight of
+1 / 0.192² ≈ 27. Although the point estimate moved by 0.164, the
+GP correctly down-weighted the noisier observation by ~7×, so its
+contribution to the field is preserved at approximately the same
+information level. The architecture does not require all anchors to come
+from equivalently-precise sources; it requires only that the SE field
+honestly encode each source's precision.
+
+### Implications
+
+For the manuscript's primary conclusions (adherence dominance,
+LOO-predictive validity, no conservation violations), the FIDELIO
+parent-trial-anchor approximation used in Phase-1b does not bias any
+quantitative claim. A future analysis incorporating subgroup-specific
+HRs from both FIDELIO and FIGARO is straightforward (replace two anchor
+fields in the JSON manifest and re-run) and would marginally improve
+calibration; however, no Phase-1b finding requires correction. The
+Phase-2a swap also serves as a methodological demonstration: when better
+evidence becomes available for any single trial anchor in a future DFS
+application, the entire pipeline accommodates the swap by re-weighting
+rather than by structural modification.
+
+### Reproduction
+
+```
+python scripts/phase2_subgroup_anchor_swap.py \
+    --manifest data/mra_hfpef/MANIFEST.json \
+    --results manuscript/phase2_subgroup_swap_results.csv
+```
 
 

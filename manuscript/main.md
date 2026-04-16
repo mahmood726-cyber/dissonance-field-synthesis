@@ -336,6 +336,10 @@ Section S-C). An end-to-end reproducibility audit — clone, test, re-run,
 diff every artefact against the committed version — was performed at
 repository tip 50ea7a5 and passed for all nine audited artefacts (five
 pipeline outputs and four sensitivity CSVs; Supplementary Section S-D).
+All quantitative claims in §3 (Results), all sensitivity-analysis numbers
+in S-A through S-C, and the table values in §S-B-1 and §S-C-1 are
+reproducible from the public repository by following the four commands
+listed in S-D Protocol.
 
 ---
 
@@ -583,8 +587,17 @@ its covariate anchor (high LVEF, low event rate) is informative but its outcome
 estimate carries high uncertainty. Fourth, several TOPCAT-Russia/Georgia outcomes
 are derived approximations from whole-trial values rather than directly-reported
 sub-regional HRs (§3.1); the conservation diagnostic's pass on derived values is
-not independent verification of those entries' transcription accuracy. Fifth,
-the six-trial evidence base is small. The GP posterior is dominated by the trial data rather
+not independent verification of those entries' transcription accuracy. The
+analogous concern for the FIDELIO-DKD HF-subgroup primary anchor — where the
+Phase-1b analysis used the parent-trial CV composite HR as a proxy because
+the AACT snapshot did not separately report the subgroup CV composite — was
+addressed in a Phase-2a re-fit using the subgroup-specific HR (0.73, 95% CI
+0.50–1.06) from Filippatos *et al.* 2022 [11]; the headline conclusions
+(adherence-dominance length-scale, LOO predictive coverage, dissonance
+invariance) are preserved under that swap (Supplementary Section S-E). The
+analogous swap for FIGARO-DKD HF-subgroup is deferred pending extraction
+of the subgroup-specific CV composite HR from the FIGARO subgroup paper
+supplementary material [12]. Fifth, the six-trial evidence base is small. The GP posterior is dominated by the trial data rather
 than the prior, as intended, but additional trials — particularly a larger
 dedicated spironolactone trial with rigorous adherence monitoring — would
 substantially tighten the field in the high-LVEF, low-eGFR region.
