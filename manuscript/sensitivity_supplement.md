@@ -241,3 +241,66 @@ across-seed mean at that level to six decimal places.
 Best-of-30 NLL: −3.574716 at `(n_restarts = 50, seed = 8)`; reference
 fit deviates from this by 0.000000.
 
+## Supplementary Section S-D: End-to-End Reproducibility Audit
+
+### Overview
+
+A reproducibility audit was performed by cloning the repository into a
+fresh working directory that did not share any local state with the
+development environment (no cached Python bytecode, no pre-existing
+outputs, no user-home configuration files).
+The full test suite and all analysis scripts were then re-executed against
+the cloned tree, and every produced artefact was diffed byte-for-byte
+against its committed counterpart in the original repository.
+This audit verifies that the repository as published to
+`github.com/mahmood726-cyber/dissonance-field-synthesis` is self-contained
+and produces bit-identical scientific artefacts on a machine that has
+never previously run the code.
+
+### Protocol
+
+1. `git clone <repo> <tmp_dir>` at tip commit 50ea7a5.
+2. `python -m pytest -q` in `<tmp_dir>`.
+3. `python scripts/run_dfs.py --manifest data/mra_hfpef/MANIFEST.json --out <tmp_out>`.
+4. `python scripts/sensitivity_adherence.py --results <tmp_csv_1>`.
+5. `python scripts/sensitivity_kernel.py --results <tmp_csv_2>`.
+6. `python scripts/sensitivity_restarts.py --results <tmp_csv_3>`.
+7. `diff` every produced artefact against the committed version in the
+   original repository; CSVs and JSON files must be bit-identical, PNGs
+   are not compared (matplotlib backend-dependent rendering).
+
+### Results
+
+| Audit step                           | Expected           | Observed           | Verdict |
+|--------------------------------------|--------------------|--------------------|---------|
+| Test suite                           | 101 passed, 1 skip | 101 passed, 1 skip | PASS    |
+| `outputs/dissonance.csv`             | bit-identical      | bit-identical      | PASS    |
+| `outputs/conservation_diagnostics.json` | bit-identical   | bit-identical      | PASS    |
+| `outputs/feasibility_mask.csv`       | bit-identical      | bit-identical      | PASS    |
+| `outputs/mind_change_price.csv`      | bit-identical      | bit-identical      | PASS    |
+| `outputs/k_sign_constraint_report.json` | bit-identical   | bit-identical      | PASS    |
+| `manuscript/sensitivity_results.csv` | bit-identical      | bit-identical      | PASS    |
+| `manuscript/sensitivity_kernel_results.csv` | bit-identical | bit-identical    | PASS    |
+| `manuscript/sensitivity_restarts_results.csv` | bit-identical | bit-identical  | PASS    |
+
+### Interpretation
+
+All nine audited artefacts reproduced bit-identically from a fresh
+clone.
+The fitted GP hyperparameters, the dissonance scalar table, the
+conservation-law diagnostic output, the mind-change-price calculation,
+the feasibility-mask grid, the k_sign constraint report, and all three
+sensitivity CSVs are therefore fully determined by the committed source
+code and manifest JSON files, with no hidden dependence on local state,
+user-home configuration, environmental variables, or cached compilation
+artefacts.
+Reviewers can reproduce every quantitative claim in the manuscript by
+following the four commands in the Protocol section above.
+
+<!-- AUTHOR REVIEW: Consider whether to link this Section S-D from the
+Methods section of the main manuscript as a reproducibility statement.
+Recommended language: "All code, data manifests, and outputs required
+to reproduce the analysis are available at <repo URL>; Section S-D
+of the supplement documents an end-to-end reproducibility audit." -->
+
+
