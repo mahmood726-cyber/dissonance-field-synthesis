@@ -6,7 +6,7 @@ the GP data-fit term with the GP prior regulariser.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal, TypedDict
 
 import cvxpy as cp
@@ -14,7 +14,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 from dfs.config import QP_SOLVER_ATOL
-from dfs.kernel import ard_matern_52
+from dfs.kernel import KernelFn, ard_matern_52
 
 
 class InequalityConstraint(TypedDict):
@@ -31,6 +31,7 @@ class ConstrainedGP:
     sigma2: float
     length_scales: NDArray[np.float64]
     x_joint: NDArray[np.float64]
+    kernel_fn: KernelFn = field(default=ard_matern_52)
 
     def predict(
         self, x_star: NDArray[np.float64]
@@ -40,10 +41,10 @@ class ConstrainedGP:
         The QP solution y_posterior lives at x_joint.  We treat it as a
         noiseless "observation" and do standard GP conditioning.
         """
-        k_star = ard_matern_52(
+        k_star = self.kernel_fn(
             x_star, self.x_joint, self.sigma2, self.length_scales
         )
-        K_joint = ard_matern_52(
+        K_joint = self.kernel_fn(
             self.x_joint, self.x_joint, self.sigma2, self.length_scales
         )
         K_joint = K_joint + 1e-8 * np.eye(K_joint.shape[0])
@@ -64,6 +65,7 @@ def fit_constrained_gp(
     sigma2: float,
     length_scales: NDArray[np.float64],
     inequality_constraints: list[InequalityConstraint],
+    kernel_fn: KernelFn = ard_matern_52,
 ) -> ConstrainedGP:
     """Fit a GP with optional inequality constraints via CVXPY QP.
 
@@ -114,7 +116,7 @@ def fit_constrained_gp(
     n_joint = x_joint.shape[0]
 
     # --- Prior covariance on joint set (nugget for numerical stability) ---
-    K = ard_matern_52(x_joint, x_joint, sigma2, length_scales)
+    K = kernel_fn(x_joint, x_joint, sigma2, length_scales)
     K_reg = K + 1e-8 * np.eye(n_joint)
 
     # --- QP decision variable: f = posterior mean at joint points ---
@@ -192,4 +194,5 @@ def fit_constrained_gp(
         sigma2=sigma2,
         length_scales=length_scales,
         x_joint=x_joint,
+        kernel_fn=kernel_fn,
     )

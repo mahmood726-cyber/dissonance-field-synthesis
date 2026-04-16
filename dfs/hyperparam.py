@@ -9,7 +9,7 @@ from numpy.typing import NDArray
 from scipy.linalg import cho_factor, cho_solve
 from scipy.optimize import minimize
 
-from dfs.kernel import ard_matern_52
+from dfs.kernel import KernelFn, ard_matern_52
 
 
 @dataclass
@@ -24,13 +24,14 @@ def _neg_log_marginal_likelihood(
     x_train: NDArray[np.float64],
     y_train: NDArray[np.float64],
     noise_var: NDArray[np.float64],
+    kernel_fn: KernelFn = ard_matern_52,
 ) -> float:
-    """Negative log marginal likelihood under ARD-Matérn 5/2."""
+    """Negative log marginal likelihood under the supplied ARD kernel."""
     n_dim = x_train.shape[1]
     sigma2 = float(np.exp(log_theta[0]))
     length_scales = np.exp(log_theta[1:1 + n_dim])
 
-    K = ard_matern_52(x_train, x_train, sigma2, length_scales)
+    K = kernel_fn(x_train, x_train, sigma2, length_scales)
     K = K + np.diag(noise_var) + 1e-8 * np.eye(K.shape[0])
     try:
         L_and_lower = cho_factor(K, lower=True)
@@ -53,6 +54,7 @@ def fit_hyperparameters(
     initial_length_scales: Optional[NDArray[np.float64]] = None,
     n_restarts: int = 5,
     seed: int = 0,
+    kernel_fn: KernelFn = ard_matern_52,
 ) -> FittedHyperparameters:
     """Fit (sigma2, length_scales) by maximizing log marginal likelihood.
 
@@ -108,7 +110,7 @@ def fit_hyperparameters(
             result = minimize(
                 _neg_log_marginal_likelihood,
                 x0=x0,
-                args=(x_train, y_train, noise_var),
+                args=(x_train, y_train, noise_var, kernel_fn),
                 method="L-BFGS-B",
                 bounds=[(-10, 10)] * (1 + n_dim),
             )
