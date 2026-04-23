@@ -18,9 +18,11 @@ Outputs a structured summary to stdout suitable for JSON fixture upgrades.
 import csv
 import io
 import math
+import os
 import sys
 import argparse
 from collections import defaultdict
+from pathlib import Path
 
 # Windows cp1252 console fix — wrap stdout to UTF-8 before any print
 if hasattr(sys.stdout, "buffer"):
@@ -29,7 +31,26 @@ if hasattr(sys.stdout, "buffer"):
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-DEFAULT_AACT = r"C:\Users\user\AACT\2026-04-12"
+def _resolve_default_aact() -> str:
+    """Locate the AACT snapshot. Honours AACT_DIR env var, then probes the
+    common dev-machine locations on C: and D:. Returns the first match, or
+    the first candidate as a fallback so --aact-dir error messages are useful.
+    """
+    env = os.environ.get("AACT_DIR", "")
+    candidates = []
+    if env:
+        candidates.append(Path(env).expanduser())
+    # Per ~/.claude/rules/lessons.md: snapshots may live on C: or D:.
+    for root in (Path.home() / "AACT", Path("D:/AACT"), Path("C:/AACT")):
+        candidates.append(root / "2026-04-12")
+        candidates.append(root)
+    for c in candidates:
+        if c.is_dir():
+            return str(c)
+    return str(candidates[0])
+
+
+DEFAULT_AACT = _resolve_default_aact()
 
 NCT_IDS = {
     "NCT00094302": "TOPCAT",
